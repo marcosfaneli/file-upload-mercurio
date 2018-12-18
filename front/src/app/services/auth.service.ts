@@ -6,15 +6,15 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class AuthService {
 
-  private BASE_URL: string = 'http://localhost:5000/auth';
+  private BASE_URL = 'http://100.0.66.160:5000/auth';
 
   private headers: Headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http) {}
 
-  logout(token): Promise<any> {
-    let url: string = `${this.BASE_URL}/logout`;
-    let headers: Headers = new Headers({
+  logout(token: string): Promise<any> {
+    const url = `${this.BASE_URL}/logout`;
+    const headers: Headers = new Headers({
       'Content-Type': 'application/json',
       Authorization: `${token}`
     });
@@ -22,18 +22,18 @@ export class AuthService {
   }
 
   login(user: User): Promise<any> {
-    let url: string = `${this.BASE_URL}/login`;
+    const url = `${this.BASE_URL}/login`;
     return this.http.post(url, user, {headers: this.headers}).toPromise();
   }
 
   register(user: User): Promise<any> {
-    let url: string = `${this.BASE_URL}/register`;
+    const url = `${this.BASE_URL}/register`;
     return this.http.post(url, user, {headers: this.headers}).toPromise();
   }
 
-  ensureAuthenticated(token): Promise<any> {
-    let url: string = `${this.BASE_URL}/status`;
-    let headers: Headers = new Headers({
+  ensureAuthenticated(token: string): Promise<any> {
+    const url = `${this.BASE_URL}/status`;
+    const headers: Headers = new Headers({
       'Content-Type': 'application/json',
       Authorization: `${token}`
     });

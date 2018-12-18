@@ -17,9 +17,7 @@ export class RegisterComponent {
   onRegister(): void {
     this.auth.register(this.user)
     .then((user) => {
-      const token = user.json().token;
-      localStorage.setItem('token',token);
-      this.router.navigateByUrl('/status');
+      this.router.navigateByUrl('/login');
     })
     .catch((err) => {
       console.log(err);

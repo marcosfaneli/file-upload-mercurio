@@ -29,4 +29,4 @@ def register():
 def login():
     return User().login(request)
 
-app.run(debug=True)
+app.run(debug=True, host='100.0.66.160')
