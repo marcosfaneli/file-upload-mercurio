@@ -10,6 +10,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { RegisterComponent } from './components/register/register.component';
 import { StatusComponent } from './components/status/status.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { UploadComponent } from './components/upload/upload.component';
 
 import { AuthService } from './services/auth.service';
 import { EnsureAuthenticatedService } from './services/ensure-authenticated.service';
@@ -22,7 +23,8 @@ import { LoginRedirectService } from './services/login-redirect.service';
     InicioComponent,
     RegisterComponent,
     StatusComponent,
-    LogoutComponent
+    LogoutComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +34,7 @@ import { LoginRedirectService } from './services/login-redirect.service';
       { path: 'login', component: LoginComponent, canActivate: [LoginRedirectService] },
       { path: 'register', component: RegisterComponent, canActivate: [LoginRedirectService] },
       { path: 'status', component: StatusComponent, canActivate: [EnsureAuthenticatedService] },
+      { path: 'upload', component: UploadComponent, canActivate: [EnsureAuthenticatedService] },
       { path: 'logout', component: LogoutComponent, canActivate: [EnsureAuthenticatedService] },
       { path: '', component: InicioComponent, canActivate: [EnsureAuthenticatedService]}
     ])

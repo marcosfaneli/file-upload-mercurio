@@ -3,6 +3,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from session import User
+from upload import upload_file
 
 
 app = Flask(__name__)
@@ -28,5 +29,9 @@ def register():
 @app.route('/auth/login', methods=['POST'])
 def login():
     return User().login(request)
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    return upload_file(request)
 
 app.run(debug=True, host='100.0.66.160')
