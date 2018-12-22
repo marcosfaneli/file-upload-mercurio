@@ -1,0 +1,30 @@
+<div class="margem table-responsive-md">
+    <table class="table table-hover">
+      <tbody>
+      <tr *ngFor="let arquivo of arquivos">
+        <td class="align-text-top">
+          <span *ngIf="arquivo.tipo == 'DOC'" style="font-size: 1.2em; color: Dodgerblue;">
+            <i class="far fa-file-word"></i>
+          </span>
+          <span *ngIf="arquivo.tipo == 'PDF'" style="font-size: 1.2em; color: Tomato;">
+            <i class="far fa-file-pdf"></i>
+          </span>
+          <span *ngIf="arquivo.tipo == 'ZIP'" style="font-size: 1.2em; color: #fefefe;">
+            <i class="far fa-file-archive"></i>
+          </span>
+        </td>
+        <td class="col-6 align-text-bottom">
+          <h6>{{arquivo.descricao}}</h6>
+          <span class="detalhes-arquivo">
+            Upload em: {{arquivo.data_postado}} por {{arquivo.usuario_postou}} - 
+            Visualizações: {{arquivo.visualizadores.length}}
+          </span>
+        </td>
+        <td>
+          <a href="#" class="btn btn-primary btn-sm">Baixar</a>
+          <a href="#" class="btn btn-primary btn-sm">Detalhes</a>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

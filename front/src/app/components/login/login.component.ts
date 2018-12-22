@@ -12,6 +12,8 @@ export class LoginComponent {
 
   user: User = new User();
 
+  error = false;
+
   constructor(private auth: AuthService, private router: Router) { }
 
   onLogin(): void {
@@ -21,10 +23,15 @@ export class LoginComponent {
 
       localStorage.setItem('token', token);
 
-      this.router.navigateByUrl('/status');
+      this.router.navigateByUrl('/');
     })
     .catch((err) => {
+      this.error = true;
       console.log(err);
     });
+  }
+
+  closeAlert() {
+    this.error = false;
   }
 }

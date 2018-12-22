@@ -11,6 +11,9 @@ import { RegisterComponent } from './components/register/register.component';
 import { StatusComponent } from './components/status/status.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { UploadComponent } from './components/upload/upload.component';
+import { PesquisaComponent } from './components/pesquisa/pesquisa.component';
+import { DetalheComponent } from './components/detalhe/detalhe.component';
+import { ListFileComponent } from './components/list-file/list-file.component';
 
 import { AuthService } from './services/auth.service';
 import { EnsureAuthenticatedService } from './services/ensure-authenticated.service';
@@ -24,7 +27,10 @@ import { LoginRedirectService } from './services/login-redirect.service';
     RegisterComponent,
     StatusComponent,
     LogoutComponent,
-    UploadComponent
+    UploadComponent,
+    PesquisaComponent,
+    DetalheComponent,
+    ListFileComponent
   ],
   imports: [
     BrowserModule,
@@ -35,8 +41,10 @@ import { LoginRedirectService } from './services/login-redirect.service';
       { path: 'register', component: RegisterComponent, canActivate: [LoginRedirectService] },
       { path: 'status', component: StatusComponent, canActivate: [EnsureAuthenticatedService] },
       { path: 'upload', component: UploadComponent, canActivate: [EnsureAuthenticatedService] },
+      { path: 'pesquisa/:id', component: PesquisaComponent, canActivate: [EnsureAuthenticatedService] },
       { path: 'logout', component: LogoutComponent, canActivate: [EnsureAuthenticatedService] },
-      { path: '', component: InicioComponent, canActivate: [EnsureAuthenticatedService]}
+      { path: '', component: InicioComponent, canActivate: [EnsureAuthenticatedService]},
+      { path: '**', redirectTo: ''}
     ])
   ],
   providers: [

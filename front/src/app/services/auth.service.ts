@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { User } from '../models/user';
+import { Router } from '@angular/router';
 import 'rxjs/add/operator/toPromise';
+import { URL_SERVICE } from '../constantes';
 
 @Injectable()
 export class AuthService {
 
-  private BASE_URL = 'http://100.0.66.160:5000/auth';
+  private BASE_URL = `${URL_SERVICE}/auth`;
 
   private headers: Headers = new Headers({'Content-Type': 'application/json'});
 
-  constructor(private http: Http) {}
+  constructor(private http: Http, private router: Router) {}
 
   logout(token: string): Promise<any> {
     const url = `${this.BASE_URL}/logout`;
@@ -31,12 +33,39 @@ export class AuthService {
     return this.http.post(url, user, {headers: this.headers}).toPromise();
   }
 
-  ensureAuthenticated(token: string): Promise<any> {
-    const url = `${this.BASE_URL}/status`;
+  ensureAuthenticatedGet(route: string): Promise<any> {
+    const token = localStorage.getItem('token');
+
+    const url = `${URL_SERVICE}/${route}`;
+
     const headers: Headers = new Headers({
       'Content-Type': 'application/json',
       Authorization: `${token}`
     });
-    return this.http.get(url, {headers: headers}).toPromise();
+    return this.http.get(url, {headers: headers})
+      .toPromise()
+      .catch((err) => {
+        console.error(err);
+        this.router.navigateByUrl('/logout');
+      });
+  }
+
+  ensureAuthenticatedPost(route: string, payload: any): Promise<any> {
+
+    const token = localStorage.getItem('token');
+
+    const url = `${URL_SERVICE}/${route}`;
+
+    const headers: Headers = new Headers({
+      'Content-Type': 'application/json',
+      Authorization: `${token}`
+    });
+
+    return this.http.post(url, payload, {headers: headers})
+      .toPromise()
+      .catch((err) => {
+        console.error(err);
+        this.router.navigateByUrl('/logout');
+      });
   }
 }

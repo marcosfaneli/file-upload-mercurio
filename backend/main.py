@@ -3,22 +3,24 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from session import User
-from upload import upload_file
+from categoria import Categoria
+from upload import Upload
+from arquivo import Arquivo
 
 
 app = Flask(__name__)
 cors = CORS(app, resources = {r"/*": {"origins": "*"}})
 
 
-@app.route('/', methods=['GET'])
+@app.route('/arquivo', methods=['GET'])
 def listar():
-    return User().listar()
+    return Arquivo().listar()
 
 @app.route('/auth/logout', methods=['GET'])
 def logout():
     return User().logout(request)
 
-@app.route('/auth/status', methods=['GET'])
+@app.route('/status', methods=['GET'])
 def status():
     return User().status()
 
@@ -32,6 +34,10 @@ def login():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    return upload_file(request)
+    return Upload().carregar(request)
 
-app.run(debug=True, host='100.0.66.160')
+@app.route('/categoria', methods=['GET'])
+def listar_categoria():
+    return Categoria().listar()
+
+app.run(debug=True)

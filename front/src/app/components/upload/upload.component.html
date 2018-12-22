@@ -1,3 +1,13 @@
 <div class="row margem">
-  <input type="file" (change)="inputFileChange($event)" />
+  <div class="row">
+    <div class="col-md-4">
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="descricao">Descrição</label>
+          <input type="text" class="form-control" id="descricao" placeholder="descrição do arquivo" [(ngModel)]="arquivo.descricao" name="descricao" required>
+        </div>
+      <input type="file" (change)="inputFileChange($event)" />
+      </form>
+    </div>
+  </div>
 </div>

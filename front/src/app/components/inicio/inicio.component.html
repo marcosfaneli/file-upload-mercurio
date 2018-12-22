@@ -1,6 +1,14 @@
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img alt="Fox Integrate" src="assets/logo.png">
+<div class="margem">
+  <div style="text-align:center" class="margem">
+    <form>
+      <div class="form-group">
+       <label for="texto">Buscar arquivo</label>
+       <input type="text" class="form-control" id="texto" [(ngModel)]="texto" placeholder="informe palavra para pesquisa" name="texto">
+      </div>
+      <div class="form-group">
+       <button type="button" class="btn btn-raised btn-success" (click)="buscarArquivos()">Buscar arquivos</button>
+      </div>
+    </form>
+  </div>
+  <app-list-file [arquivos]="arquivos"></app-list-file>
 </div>

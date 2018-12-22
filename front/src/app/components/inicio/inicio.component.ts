@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-inicio',
@@ -7,10 +10,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InicioComponent implements OnInit {
 
-  constructor() { }
+  texto: string;
+
+  categorias: any[];
+  arquivos: any[];
+
+  constructor(private auth: AuthService, private route: Router) { }
 
   ngOnInit() {
+    this.carregarCategorias();
+    this.carregarArquivos();
   }
 
-  titulo: string = 'Fox-App';
+  private carregarCategorias() {
+    this.auth.ensureAuthenticatedGet('categoria')
+      .then((response) => {
+        this.categorias = response.json().categorias;
+      });
+  }
+
+  private carregarArquivos() {
+    this.auth.ensureAuthenticatedGet('arquivo')
+      .then((response) => {
+        this.arquivos = response.json().arquivos;
+      });
+  }
+
+  private buscarArquivos() {
+    this.route.navigateByUrl(`pesquisa/${this.texto}`);
+  }
 }
