@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-file',
@@ -7,9 +8,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ListFileComponent implements OnInit {
 
-  _arquivos: any[];
+  _arquivos: any[] = [];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() { }
 
@@ -20,6 +21,14 @@ export class ListFileComponent implements OnInit {
 
   get arquivos(): any[]{
     return this._arquivos;
+  }
+
+  private detalhes(id) {
+    this.router.navigateByUrl(`detail/${id}`);
+  }
+
+  private visualizar(id) {
+    this.router.navigateByUrl(`view/${id}`);
   }
 
 }

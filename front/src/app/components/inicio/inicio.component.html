@@ -1,14 +1,4 @@
 <div class="margem">
-  <div style="text-align:center" class="margem">
-    <form>
-      <div class="form-group">
-       <label for="texto">Buscar arquivo</label>
-       <input type="text" class="form-control" id="texto" [(ngModel)]="texto" placeholder="informe palavra para pesquisa" name="texto">
-      </div>
-      <div class="form-group">
-       <button type="button" class="btn btn-raised btn-success" (click)="buscarArquivos()">Buscar arquivos</button>
-      </div>
-    </form>
-  </div>
+  <h1>Recentemente carregados</h1>
   <app-list-file [arquivos]="arquivos"></app-list-file>
 </div>

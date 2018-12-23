@@ -12,9 +12,17 @@ app = Flask(__name__)
 cors = CORS(app, resources = {r"/*": {"origins": "*"}})
 
 
-@app.route('/arquivo', methods=['GET'])
-def listar():
-    return Arquivo().listar()
+@app.route('/recente', methods=['GET'])
+def recente():
+    return Arquivo().recente()
+
+@app.route('/pesquisa/<texto>', methods=['GET'])
+def pesquisa(texto):
+    return Arquivo().pesquisa(texto)
+
+@app.route('/detail/<id>', methods=['GET'])
+def detalhes(id):
+    return Arquivo().detalhes(id)
 
 @app.route('/auth/logout', methods=['GET'])
 def logout():

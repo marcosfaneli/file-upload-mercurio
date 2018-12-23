@@ -1,3 +1,33 @@
-<p>
-  detalhe works!
-</p>
+<div class="margem">
+  <p *ngIf="!arquivo">
+    O arquivo indicado não foi encontrado.
+  </p>
+  <div>
+    <h1>{{arquivo.descricao}}</h1>
+    <div>
+    <!--<span *ngFor="let key of arquivo.keys">
+      {{key}}
+    <span>-->
+    </div>
+    <div>
+      <strong>Carregado em:</strong><br/> 
+      {{arquivo.data_postado}}
+    </div>
+    <div>
+      <strong>Usuário que carregou o arquivo:</strong><br/>
+      {{arquivo.usuario_postou}} 
+    </div>
+    <div>
+      <strong>Visualizações:</strong><br/>
+      <table class="table">
+        <tbody>
+          <tr *ngFor="let visualizador of arquivo.visualizadores">
+            <td>{{visualizador.nome}}</td>
+            <td>{{visualizador.data}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

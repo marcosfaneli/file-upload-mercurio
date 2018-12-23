@@ -12,8 +12,7 @@ export class LoginRedirectService implements CanActivate {
         this.router.navigateByUrl('/status');
         return false;
       }
-      else {
-        return true;
-      }
+
+      return true;
     }
 }

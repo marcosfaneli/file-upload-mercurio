@@ -1,12 +1,12 @@
 <ul *ngIf="logado" class="nav nav-tabs">
   <li class="nav-item" style="margin: 2px;">
-     <img alt="Fox Integrate" src="assets/logo.png" height="48">
+    <img routerLink="/" alt="Fox Integrate" src="assets/logo.png" height="64">
   </li>
   <li class="nav-item">
     <a class="nav-link" routerLink="upload">Novo</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Pesquisar</a>
+    <a class="nav-link" routerLink="search">Pesquisar</a>
   </li>
 </ul>
 <router-outlet></router-outlet>

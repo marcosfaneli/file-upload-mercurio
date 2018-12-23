@@ -16,11 +16,11 @@ export class LogoutComponent implements OnInit {
     this.auth.logout(token)
     .catch((err) => {
       console.error(err);
-      this.router.navigateByUrl('/')
+      this.router.navigateByUrl('/');
     });
 
     localStorage.removeItem('token');
-    this.router.navigateByUrl('/login')
+    this.router.navigateByUrl('/login');
   }
 
 }

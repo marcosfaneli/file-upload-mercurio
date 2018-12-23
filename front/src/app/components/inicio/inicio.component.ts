@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -15,7 +14,7 @@ export class InicioComponent implements OnInit {
   categorias: any[];
   arquivos: any[];
 
-  constructor(private auth: AuthService, private route: Router) { }
+  constructor(private auth: AuthService) { }
 
   ngOnInit() {
     this.carregarCategorias();
@@ -30,13 +29,9 @@ export class InicioComponent implements OnInit {
   }
 
   private carregarArquivos() {
-    this.auth.ensureAuthenticatedGet('arquivo')
+    this.auth.ensureAuthenticatedGet('recente')
       .then((response) => {
         this.arquivos = response.json().arquivos;
       });
-  }
-
-  private buscarArquivos() {
-    this.route.navigateByUrl(`pesquisa/${this.texto}`);
   }
 }

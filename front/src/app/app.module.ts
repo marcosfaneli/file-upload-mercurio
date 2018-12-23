@@ -14,6 +14,7 @@ import { UploadComponent } from './components/upload/upload.component';
 import { PesquisaComponent } from './components/pesquisa/pesquisa.component';
 import { DetalheComponent } from './components/detalhe/detalhe.component';
 import { ListFileComponent } from './components/list-file/list-file.component';
+import { VizualizacaoComponent } from './components/vizualizacao/vizualizacao.component';
 
 import { AuthService } from './services/auth.service';
 import { EnsureAuthenticatedService } from './services/ensure-authenticated.service';
@@ -30,7 +31,8 @@ import { LoginRedirectService } from './services/login-redirect.service';
     UploadComponent,
     PesquisaComponent,
     DetalheComponent,
-    ListFileComponent
+    ListFileComponent,
+    VizualizacaoComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,10 @@ import { LoginRedirectService } from './services/login-redirect.service';
       { path: 'register', component: RegisterComponent, canActivate: [LoginRedirectService] },
       { path: 'status', component: StatusComponent, canActivate: [EnsureAuthenticatedService] },
       { path: 'upload', component: UploadComponent, canActivate: [EnsureAuthenticatedService] },
-      { path: 'pesquisa/:id', component: PesquisaComponent, canActivate: [EnsureAuthenticatedService] },
+      { path: 'search/:texto', component: PesquisaComponent, canActivate: [EnsureAuthenticatedService] },
+      { path: 'search', component: PesquisaComponent, canActivate: [EnsureAuthenticatedService] },
+      { path: 'detail/:id', component: DetalheComponent, canActivate: [EnsureAuthenticatedService] },
+      { path: 'view/:id', component: VizualizacaoComponent, canActivate: [EnsureAuthenticatedService] },
       { path: 'logout', component: LogoutComponent, canActivate: [EnsureAuthenticatedService] },
       { path: '', component: InicioComponent, canActivate: [EnsureAuthenticatedService]},
       { path: '**', redirectTo: ''}

@@ -1,4 +1,10 @@
-<div class="margem table-responsive-md">
+<div *ngIf="!arquivos" class="margem">
+  <h4>Nenhum resultado para exibir</h4>
+</div>
+<div *ngIf="arquivos" class="table-responsive-md">
+  <div style="text-align: right; color: darkgrey;">
+    Total listado {{arquivos.length}}
+  </div>
     <table class="table table-hover">
       <tbody>
       <tr *ngFor="let arquivo of arquivos">
@@ -16,13 +22,13 @@
         <td class="col-6 align-text-bottom">
           <h6>{{arquivo.descricao}}</h6>
           <span class="detalhes-arquivo">
-            Upload em: {{arquivo.data_postado}} por {{arquivo.usuario_postou}} - 
+            Carregado em: {{arquivo.data_postado}} por {{arquivo.usuario_postou}} - 
             Visualizações: {{arquivo.visualizadores.length}}
           </span>
         </td>
         <td>
-          <a href="#" class="btn btn-primary btn-sm">Baixar</a>
-          <a href="#" class="btn btn-primary btn-sm">Detalhes</a>
+          <button (click)="visualizar(arquivo.id)" class="btn btn-primary btn-sm">Baixar</button>
+          <button (click)="detalhes(arquivo.id)" class="btn btn-primary btn-sm">Detalhes</button>
         </td>
         </tr>
       </tbody>
