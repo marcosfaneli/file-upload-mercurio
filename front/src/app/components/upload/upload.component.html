@@ -1,13 +1,22 @@
 <div class="row margem">
-  <div class="row">
-    <div class="col-md-4">
-      <form (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="descricao">Descrição</label>
-          <input type="text" class="form-control" id="descricao" placeholder="descrição do arquivo" [(ngModel)]="arquivo.descricao" name="descricao" required>
-        </div>
-      <input type="file" (change)="inputFileChange($event)" />
-      </form>
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="descricao">Descrição</label>
+      <input type="text" class="form-control" id="descricao" placeholder="descrição do arquivo" [(ngModel)]="arquivo.descricao" name="descricao" required>
     </div>
-  </div>
+    <div class="form-group">
+      <label for="categoria">categoria</label>
+      <select class="form-control" id="categoria" [(ngModel)]="arquivo.categoria" name="categoria" required >
+        <option *ngFor="let categoria of categorias">{{categoria.descricao}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="chave">Palavras-chave</label>
+      <input type="text" class="form-control" id="chave" placeholder="palavras-chave separadas por ;" [(ngModel)]="arquivo.chave" name="chave" required>
+    </div>
+    <div class="form-group">
+      <input class="btn btn-success" type="file" (change)="inputFileChange($event)" />
+    </div>
+    <button type="submit" class="btn btn-raised btn-success">Enviar</button>
+  </form>
 </div>

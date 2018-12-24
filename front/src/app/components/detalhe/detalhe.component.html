@@ -1,23 +1,24 @@
 <div class="margem">
-  <p *ngIf="!arquivo">
+  <div *ngIf="!arquivo">
     O arquivo indicado não foi encontrado.
-  </p>
-  <div>
+  </div>
+  <div *ngIf="arquivo">
     <h1>{{arquivo.descricao}}</h1>
-    <div>
-    <!--<span *ngFor="let key of arquivo.keys">
+    <button (click)="visualizar(arquivo.id)" type="button" class="btn btn-raised btn-success">Baixar</button>
+    <div class="item">
+    <span *ngFor="let key of arquivo.keys" class="badge badge-primary" style="margin: 2px;">
       {{key}}
-    <span>-->
+    </span>
     </div>
-    <div>
+    <div class="item">
       <strong>Carregado em:</strong><br/> 
       {{arquivo.data_postado}}
     </div>
-    <div>
+    <div class="item">
       <strong>Usuário que carregou o arquivo:</strong><br/>
       {{arquivo.usuario_postou}} 
     </div>
-    <div>
+    <div class="item">
       <strong>Visualizações:</strong><br/>
       <table class="table">
         <tbody>

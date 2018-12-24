@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
-import { Arquivo } from '../../models/arquivo';
 import { URL_SERVICE } from '../../constantes';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-upload',
@@ -10,14 +10,22 @@ import { URL_SERVICE } from '../../constantes';
 })
 export class UploadComponent implements OnInit {
 
-  private arquivo = new Arquivo('', 0, [], '');
+  private arquivo: any = {};
   private file: any;
+  private categorias = [];
 
-  private BASE_URL = `${URL_SERVICE}/upload`;
+  constructor(private auth: AuthService) { }
 
-  constructor(private http: Http) { }
+  ngOnInit() {
+    this.carregarCategorias();
+  }
 
-  ngOnInit() { }
+  private carregarCategorias() {
+    this.auth.ensureAuthenticatedGet('categoria')
+      .then((response) => {
+        this.categorias = response.json().categorias;
+      });
+  }
 
   inputFileChange(event) {
     if (event.target.files && event.target.files[0]) {
@@ -26,12 +34,15 @@ export class UploadComponent implements OnInit {
     }
   }
 
-  onSubmit(){
+  onSubmit() {
     const formData = new FormData();
     formData.append('file', this.file);
+    formData.append('categoria', this.arquivo.categoria);
+    formData.append('descricao', this.arquivo.descricao);
+    formData.append('chave', this.arquivo.chave);
 
-    this.http.post(this.BASE_URL, formData)
-      .subscribe(resposta => console.log('OK'));
+    this.auth.ensureAuthenticatedPost('upload', formData)
+      .then(resposta => console.log('OK'));
   }
 
 }
