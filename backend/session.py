@@ -8,7 +8,7 @@ import jwt
 KEY = 'meupiru'
 
 
-users = [{'email': "faneli", 'password': "123456"}]
+users = [{'email': "faneli", 'password': "123456", 'cnpj': "01222333000144", 'nome': "Marcos Faneli"}]
 
 
 def check_authorization(f):
@@ -20,7 +20,7 @@ def check_authorization(f):
 
             session = User()
 
-            user = session.encontrar_user(token['user'])
+            user = session.encontrar_user(token['user'], token['cnpj'])
             if not user:
                 raise Exception('User not found')
 
@@ -31,7 +31,7 @@ def check_authorization(f):
 
         except Exception as ex:
             print(ex)
-            return jsonify({'success': False, 'message': "User invalid"}), 401
+            return jsonify({'success': False, 'message': ex.args}), 401
 
     return wrapper
 
@@ -53,9 +53,9 @@ class User(object):
         return True
 
 
-    def encontrar_user(self, email):
+    def encontrar_user(self, email, cnpj):
         for user in users:
-            if user['email'] == email:
+            if user['email'] == email and user['cnpj'] == cnpj:
                 return user
 
 
@@ -67,9 +67,9 @@ class User(object):
         return expira
 
 
-    def gerar_token(self, email, password):
-        encoded = jwt.encode({'user': email, 'password': password}, KEY, algorithm='HS256')
-        
+    def gerar_token(self, email, password, cnpj):
+        encoded = jwt.encode({'user': email, 'password': password, 'cnpj': cnpj}, KEY, algorithm='HS256')
+
         token = str(encoded)[2:-1]
 
         return token
@@ -77,7 +77,7 @@ class User(object):
 
     def validar_user(self, user, password):
         return user['password'] == password
-        
+
 
     @check_authorization
     def listar(self):
@@ -91,10 +91,10 @@ class User(object):
 
             token = jwt.decode(authorization, KEY, algorithms=['HS256'])
 
-            self.remover_user(token['user'])
+            self.remover_user(token['user'], token['cnpj'])
         except Exception as ex:
             print(ex)
-            return jsonify({'success': False, 'message': "User invalid"}), 401
+            return jsonify({'success': False, 'message': ex.args}), 401
         else:
             return jsonify({'success': True}), 200
 
@@ -107,9 +107,11 @@ class User(object):
     def register(self, request):
         try:
             email = request.json['email']
-            password = request.json['password']
+            password = request.json['senha']
+            cnpj = request.json['cnpj']
+            nome = request.json['nome']
 
-            user = {'email': email, 'password': password}
+            user = {'email': email, 'password': password, 'cnpj': cnpj, 'nome': nome}
 
             users.append(user)
 
@@ -123,15 +125,19 @@ class User(object):
     def login(self, request):
         try:
             print(request)
-            user = self.encontrar_user(request.json['email'])
+            cnpj = self.encontrar_cnpj(request.json['empresa'])
+            user = self.encontrar_user(request.json['email'], cnpj)
 
             if not self.validar_user(user, request.json['password']):
               raise Exception('User invalid')
 
-            token = self.gerar_token(request.json['email'] , request.json['password'])
+            token = self.gerar_token(request.json['email'] , request.json['password'], cnpj)
 
         except Exception as ex:
             print(ex)
             return jsonify({'success': False, 'message': "User invalid"}), 401
         else:
             return jsonify({'success': True, 'token': token}), 200
+
+    def encontrar_cnpj(self, empresa):
+        return '01222333000144';

@@ -41,6 +41,7 @@ import { LoginRedirectService } from './services/login-redirect.service';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent, canActivate: [LoginRedirectService] },
+      { path: 'login/:empresa', component: LoginComponent, canActivate: [LoginRedirectService] },
       { path: 'register', component: RegisterComponent, canActivate: [LoginRedirectService] },
       { path: 'status', component: StatusComponent, canActivate: [EnsureAuthenticatedService] },
       { path: 'upload', component: UploadComponent, canActivate: [EnsureAuthenticatedService] },

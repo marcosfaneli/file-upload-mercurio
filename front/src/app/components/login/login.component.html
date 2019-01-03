@@ -7,8 +7,9 @@
 <div class="login">
   <div>
     <h1>Login</h1>
-    <hr><br>
+    <hr>
     <form (ngSubmit)="onLogin()" novalidate>
+    <input type="hidden" id="empresa" [(ngModel)]="user.empresa" name="empresa" required>
      <div class="form-group">
        <label for="email">Email</label>
        <input type="text" class="form-control" id="email" placeholder="enter email" [(ngModel)]="user.email" name="email" required>
@@ -22,6 +23,6 @@
   </div>
   <hr>
   <div>
-    <a routerLink='/register'>Register</a>
+    <a routerLink='/register'>Novo usuário?</a>
   </div>
 </div>

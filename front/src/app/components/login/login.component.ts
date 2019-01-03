@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user';
 
@@ -14,7 +14,11 @@ export class LoginComponent {
 
   error = false;
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) {
+    this.route.params.subscribe(params => {
+      this.user.empresa = params.empresa;
+    });
+  }
 
   onLogin(): void {
     this.auth.login(this.user)

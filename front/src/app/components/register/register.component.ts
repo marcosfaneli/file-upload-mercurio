@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../models/user';
+import { Solicitacao } from '../../models/solicitacao';
 
 @Component({
   selector: 'app-register',
@@ -10,16 +10,24 @@ import { User } from '../../models/user';
 })
 export class RegisterComponent {
 
-  user: User = new User();
+  loading = false;
+  error = false;
+  error_message = '';
+  solicitacao: Solicitacao = new Solicitacao();
 
   constructor(private auth: AuthService, private router: Router) {}
 
-  onRegister(): void {
-    this.auth.register(this.user)
+  onRegister() {
+    this.loading = true;
+
+    this.auth.register(this.solicitacao)
     .then((user) => {
       this.router.navigateByUrl('/login');
     })
     .catch((err) => {
+      this.loading = false;
+      this.error = true;
+      this.error_message = err.json().message;
       console.log(err);
     });
   }

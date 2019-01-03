@@ -1,17 +1,29 @@
-<div class="row margem">
-  <div class="col-md-4">
-    <h1>Register</h1>
-    <hr><br>
-    <form (ngSubmit)="onRegister()" novalidate>
-     <div class="form-group">
-       <label for="email">Email</label>
-       <input type="text" class="form-control" id="email" placeholder="enter email" [(ngModel)]="user.email" name="email" required>
-     </div>
-     <div class="form-group">
-       <label for="password">Password</label>
-       <input type="password" class="form-control" id="password" placeholder="enter password" [(ngModel)]="user.password" name="password" required>
-     </div>
-     <button type="submit" class="btn btn-default">Submit</button>
-    </form>
-  </div>
+<div *ngIf="error" class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Solicitação não enviada</strong> {{error_message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="margem">
+  <h2>Registrar novo usuário</h2>
+  <hr>
+  <form #form="ngForm" (ngSubmit)="onRegister()" novalidate>
+    <div class="form-group">
+      <label for="cnpj">CNPJ</label>
+      <input type="cnpj" class="form-control" id="cnpj" placeholder="Insira o CNPJ da empresa vinculada" [(ngModel)]="solicitacao.cnpj" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="nome">Nome</label>
+      <input type="text" class="form-control" id="nome" placeholder="Seu nome completo" [(ngModel)]="solicitacao.nome" name="nome" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" placeholder="Seu email" [(ngModel)]="solicitacao.email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Senha</label>
+      <input type="password" class="form-control" id="password" placeholder="Defina uma senha" [(ngModel)]="solicitacao.senha" name="password" required>
+    </div>
+    <button type="submit" [disabled]="form.invalid || loading" class="btn btn-raised btn-success">Solicitar cadastro <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
+  </form>
 </div>
