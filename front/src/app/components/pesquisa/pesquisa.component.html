@@ -1,11 +1,12 @@
-<div style="text-align:center" class="margem">
-  <form>
+<div class="margem">
+  <form #form="ngForm">
+    <h2>Buscar arquivos</h2>
     <div class="form-group">
-      <label for="texto">Buscar arquivo</label>
-      <input type="text" class="form-control" id="texto" [(ngModel)]="texto" placeholder="informe palavra para pesquisa" name="texto">
+      <label for="texto">Pesquisar por</label>
+      <input type="text" class="form-control" id="texto" [(ngModel)]="texto" placeholder="informe palavra para pesquisa" name="texto" required>
     </div>
     <div class="form-group">
-      <button type="button" class="btn btn-raised btn-success" (click)="buscarArquivos()">Buscar arquivos</button>
+      <button type="button" [disabled]="form.invalid || loading" class="btn btn-raised btn-success" (click)="buscarArquivos()">Buscar arquivos <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
     </div>
   </form>
 </div>

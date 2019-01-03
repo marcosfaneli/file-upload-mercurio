@@ -11,6 +11,7 @@ export class PesquisaComponent implements OnInit {
 
   arquivos: any[] = [];
   texto: string;
+  loading = false;
 
   constructor(private auth: AuthService, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
@@ -25,9 +26,11 @@ export class PesquisaComponent implements OnInit {
   }
 
   private buscarArquivos() {
+    this.loading = true;
     if (this.texto) {
       this.auth.ensureAuthenticatedGet(`pesquisa/${this.texto}`)
         .then((response) => {
+          this.loading = false;
           this.arquivos = response.json().arquivos;
         });
     }

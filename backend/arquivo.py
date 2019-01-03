@@ -1,15 +1,17 @@
 from flask import jsonify, request
-from arquivo_dao import lista
+from arquivo_dao import ArquivoDao
 from session import User, check_authorization
+
 
 class Arquivo(object):
     def __init__(self):
-        pass
+        self.dao = ArquivoDao()
+
 
     @check_authorization
     def detalhes(self, id):
         try:
-            arquivo = lista[0]
+            arquivo = self.dao.obter(id)
         except Exception as ex:
             print(ex)
             return jsonify({'success': False, 'message': "File not found"}), 500
@@ -20,7 +22,7 @@ class Arquivo(object):
     @check_authorization
     def recente(self):
         try:
-            arquivos = lista
+            arquivos = self.dao.listar()
         except Exception as ex:
             print(ex)
             return jsonify({'success': False, 'message': "Error listing"}), 500
@@ -31,7 +33,7 @@ class Arquivo(object):
     @check_authorization
     def pesquisa(self, texto):
         try:
-            arquivos = lista
+            arquivos = self.dao.listar()
         except Exception as ex:
             print(ex)
             return jsonify({'success': False, 'message': "Error listing"}), 404

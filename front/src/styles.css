@@ -1,7 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 .margem {
-  margin: 12px;
+  width: 640px;
+  margin: 12px auto;
+  position: relative;
 }
+
 body {
   background-color: white;
+}
+
+@media screen and (max-width: 664px) {
+  .margem {
+    margin: 12px;
+    width: auto;
+  }
 }

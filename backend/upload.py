@@ -5,35 +5,40 @@ from werkzeug.utils import secure_filename
 
 
 class Upload(object):
-    UPLOAD_FOLDER = 'c:/temp/'
-    ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+    def __init__(self):
+        self.UPLOAD_FOLDER = 'c:/temp/'
+        self.ALLOWED_EXTENSIONS = set(['txt', 'doc', 'docx', 'xls', 'xlsx', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
-    def allowed_file(filename):
-        return '.' in filename and \
-               filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    def allowed_file(self, filename):
+        return '.' in filename and filename.rsplit('.', 1)[1].lower() in self.ALLOWED_EXTENSIONS
+
 
     @check_authorization
-    def carregar(request):
+    def carregar(self, request):
         try:
-            print('chegou')
-            print(request.files)
+            if 'arquivo' not in request.files:
+                raise Exception('Não há arquivo')
 
-            if 'file' not in request.files:
-                return jsonify({'success': True}), 401
+            print(request.form['descricao'])
+            print(request.form['chave'])
+            print(request.form['categoria'])
 
-            file = request.files['file']
-            print(file)
+            file = request.files['arquivo']
 
             if file.filename == '':
-                return jsonify({'success': True}), 401
+                raise Exception('Tipo de arquivo invalido')
 
-            if file and allowed_file(file.filename):
+            if file and self.allowed_file(file.filename):
                 filename = secure_filename(file.filename)
-                file.save(os.path.join(UPLOAD_FOLDER, filename))
+                file.save(os.path.join(self.UPLOAD_FOLDER, filename))
+            else:
+                raise Exception('Extensão não permitida')
+
+            id = 1
 
         except Exception as ex:
             print(ex)
-            return jsonify({'success': False}), 404
+            return jsonify({'success': False, 'message': ex.args}), 200
         else:
-            return jsonify({'success': True}), 200
+            return jsonify({'success': True, 'id': id}), 200
