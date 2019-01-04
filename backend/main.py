@@ -48,4 +48,8 @@ def upload():
 def listar_categoria():
     return Categoria().listar()
 
+@app.route('/', methods=['GET'])
+def teste():
+    return 'online', 200;
+
 app.run(debug=True)

@@ -4,6 +4,7 @@ import { User } from '../models/user';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/toPromise';
 import { URL_SERVICE } from '../constantes';
+import { Solicitacao } from '../models/solicitacao';
 
 @Injectable()
 export class AuthService {
@@ -32,9 +33,9 @@ export class AuthService {
     return this.http.post(url, user, {headers: this.headers}).toPromise();
   }
 
-  register(user: User): Promise<any> {
+  register(solicitacao: Solicitacao): Promise<any> {
     const url = `${this.BASE_URL}/register`;
-    return this.http.post(url, user, {headers: this.headers}).toPromise();
+    return this.http.post(url, solicitacao, {headers: this.headers}).toPromise();
   }
 
   ensureAuthenticatedGet(route: string): Promise<any> {
