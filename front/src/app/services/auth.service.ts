@@ -19,13 +19,22 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  logout(token: string): Promise<any> {
+  logout(): Promise<any> {
+
+    const token = this.getToken();
+
     const url = `${this.BASE_URL}/logout`;
+
     const headers: Headers = new Headers({
       'Content-Type': 'application/json',
       Authorization: `${token}`
     });
-    return this.http.get(url, {headers: headers}).toPromise();
+
+    return this.http.get(url, {headers: headers})
+      .toPromise()
+      .then(res => {
+        localStorage.removeItem('token');
+      });
   }
 
   login(user: User): Promise<any> {
@@ -39,7 +48,7 @@ export class AuthService {
   }
 
   ensureAuthenticatedGet(route: string): Promise<any> {
-    const token = localStorage.getItem('token');
+    const token = this.getToken();
 
     const url = this.getUrl(route);
 
@@ -47,6 +56,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       Authorization: `${this.getToken()}`
     });
+
     return this.http.get(url, {headers: headers})
       .toPromise()
       .catch((err) => {

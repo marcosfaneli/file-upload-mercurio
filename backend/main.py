@@ -5,6 +5,7 @@ from flask_cors import CORS
 from session import User
 from categoria import Categoria
 from upload import Upload
+from download import Download
 from arquivo import Arquivo
 
 
@@ -43,6 +44,10 @@ def login():
 @app.route('/upload', methods=['POST'])
 def upload():
     return Upload().carregar(request)
+
+@app.route('/download/<id>', methods=['GET'])
+def download(id):
+    return Download().download(id)
 
 @app.route('/categoria', methods=['GET'])
 def listar_categoria():

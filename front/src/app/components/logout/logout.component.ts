@@ -12,14 +12,12 @@ export class LogoutComponent implements OnInit {
   constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
-    const token = localStorage.getItem('token');
-    this.auth.logout(token)
-    .catch((err) => {
-      console.error(err);
-      this.router.navigateByUrl('/');
-    });
+    this.auth.logout()
+      .catch((err) => {
+        console.error(err);
+        this.router.navigateByUrl('/');
+      });
 
-    localStorage.removeItem('token');
     this.router.navigateByUrl('/login');
   }
 
