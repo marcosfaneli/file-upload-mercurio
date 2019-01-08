@@ -42,10 +42,10 @@ class User(object):
         pass
 
 
-    def remover_user(self, email):
+    def remover_user(self, email, cnpj):
         index = 0
         for user in users:
-            if user['email'] == email:
+            if user['email'] == email and user['cnpj'] == cnpj:
                 users.pop(index)
                 return True
             index += 1
