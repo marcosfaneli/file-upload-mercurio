@@ -41,3 +41,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+front/package-lock.json
+backend/.vscode/launch.json
+front/package-lock.json
