@@ -29,7 +29,7 @@ export class InicioComponent implements OnInit {
   }
 
   private carregarArquivos() {
-    this.auth.ensureAuthenticatedGet('recente')
+    this.auth.ensureAuthenticatedGet('recent')
       .then((response) => {
         this.arquivos = response.json().arquivos;
       });

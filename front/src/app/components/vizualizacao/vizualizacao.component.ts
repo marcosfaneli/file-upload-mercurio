@@ -29,7 +29,7 @@ export class VizualizacaoComponent implements OnInit {
   }
 
   private abrirArquivo() {
-    const url = `${URL_SERVICE}/download/${this.id}`;
+    const url = `${URL_SERVICE}/download/${this.auth.getToken()}/${this.id}`;
     window.open(url);
   }
 }

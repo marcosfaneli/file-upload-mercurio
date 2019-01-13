@@ -1,41 +1,51 @@
-from flask import jsonify, request
-from arquivo_dao import ArquivoDao
-from session import User, check_authorization
+from config import URL_FILES
 
 
 class Arquivo(object):
-    def __init__(self):
-        self.dao = ArquivoDao()
+    def __init__(self, descricao, categoria, keys, tipo, data_postado, usuario_postou, arquivo, id):
+        self.descricao = descricao
+        self.categoria = categoria
+        self.keys = keys
+        self.tipo = tipo
+        self.id = id
+        self.data_postado = data_postado
+        self.usuario_postou = usuario_postou
+        self.classificacao = 1
+        self.arquivo = arquivo
+        self.hash = 'uahca'
 
+    def get_descricao(self):
+        return self.descricao
 
-    @check_authorization
-    def detalhes(self, id):
-        try:
-            arquivo = self.dao.obter(id)
-        except Exception as ex:
-            print(ex)
-            return jsonify({'success': False, 'message': "File not found"}), 500
-        else:
-            return jsonify({'success': True, 'arquivo': arquivo}), 200
+    def get_categoria(self):
+        return self.categoria
 
+    def get_keys(self):
+        return self.keys
 
-    @check_authorization
-    def recente(self):
-        try:
-            arquivos = self.dao.listar()
-        except Exception as ex:
-            print(ex)
-            return jsonify({'success': False, 'message': "Error listing"}), 500
-        else:
-            return jsonify({'success': True, 'arquivos': arquivos}), 200
+    def get_tipo(self):
+        return self.tipo
 
+    def get_id(self):
+        return self.id
 
-    @check_authorization
-    def pesquisa(self, texto):
-        try:
-            arquivos = self.dao.listar()
-        except Exception as ex:
-            print(ex)
-            return jsonify({'success': False, 'message': "Error listing"}), 404
-        else:
-            return jsonify({'success': True, 'arquivos': arquivos}), 200
+    def get_classificacao(self):
+        return self.classificacao
+
+    def get_usuario_postou(self):
+        return self.usuario_postou
+
+    def get_data_postado(self):
+        return self.data_postado
+
+    def get_categoria(self):
+        return self.categoria
+
+    def get_arquivo(self):
+        return self.arquivo
+
+    def get_hash(self):
+        return self.hash
+
+    def get_url(self):
+        return '{}/download/{}'.format(URL_FILES, self.get_hash())
