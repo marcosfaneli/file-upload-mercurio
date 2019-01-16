@@ -19,6 +19,5 @@ export class MenuComponent implements OnInit {
 
   toogleMenu() {
     $('#button-sidebar').click();
-    console.log('teste');
   }
 }
