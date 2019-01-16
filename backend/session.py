@@ -3,12 +3,13 @@ from flask import jsonify, request
 from datetime import datetime, timedelta
 import string
 import jwt
+from empresa_dao import EmpresaDao
+from usuario_dao import UsuarioDao
+from conexao import get_conexao
+from config import KEY
 
 
-KEY = 'meupiru'
-
-
-users = [{'email': "faneli", 'password': "123456", 'cnpj': "01222333000144", 'nome': "Marcos Faneli"}]
+users = []
 
 
 def check_authorization(f):
@@ -18,13 +19,13 @@ def check_authorization(f):
 
             token = jwt.decode(authorization, KEY, algorithms=['HS256'])
 
-            session = User()
+            session = Session()
 
-            user = session.encontrar_user(token['user'], token['cnpj'])
+            user = session.encontrar_sessao_aberta(token['user'], token['cnpj'])
             if not user:
                 raise Exception('User not found')
 
-            if not session.validar_user(user, token['password']):
+            if not session.validar_user(user, token):
                 raise Exception('User invalid')
 
             return f(*args, **kwargs)
@@ -36,7 +37,7 @@ def check_authorization(f):
     return wrapper
 
 
-class User(object):
+class Session(object):
 
     def __init__(self):
         pass
@@ -45,7 +46,7 @@ class User(object):
     def remover_user(self, email, cnpj):
         index = 0
         for user in users:
-            if user['email'] == email and user['cnpj'] == cnpj:
+            if user.get_email() == email and user.get_empresa().get_cnpj() == cnpj:
                 users.pop(index)
                 return True
             index += 1
@@ -53,9 +54,9 @@ class User(object):
         return True
 
 
-    def encontrar_user(self, email, cnpj):
+    def encontrar_sessao_aberta(self, email, cnpj):
         for user in users:
-            if user['email'] == email and user['cnpj'] == cnpj:
+            if user.get_email() == email and user.get_empresa().get_cnpj() == cnpj:
                 return user
 
 
@@ -75,8 +76,8 @@ class User(object):
         return token
 
 
-    def validar_user(self, user, password):
-        return user['password'] == password
+    def validar_user(self, user, request):
+        return user.get_senha() == request['password']
 
 
     @check_authorization
@@ -84,7 +85,6 @@ class User(object):
         return jsonify(users)
 
 
-    @check_authorization
     def logout(self, request):
         try:
             authorization = request.headers.get('Authorization')
@@ -94,7 +94,7 @@ class User(object):
             self.remover_user(token['user'], token['cnpj'])
         except Exception as ex:
             print(ex)
-            return jsonify({'success': False, 'message': ex.args}), 401
+            return jsonify({'success': False, 'message': ex.args}), 200
         else:
             return jsonify({'success': True}), 200
 
@@ -123,15 +123,25 @@ class User(object):
 
 
     def login(self, request):
+        empresa = ''
+
         try:
-            print(request)
-            cnpj = self.encontrar_cnpj(request.json['empresa'])
-            user = self.encontrar_user(request.json['email'], cnpj)
+            empresa = request.json['empresa']
+            if not empresa:
+                raise Exception('Empresa não informada')
+        except Exception as ex:
+            print(ex)
+            return jsonify({'success': False, 'message': "Empresa não informada"}), 401
 
-            if not self.validar_user(user, request.json['password']):
-              raise Exception('User invalid')
+        try:
+            user = self.encontrar_user(request.json['email'], empresa)
 
-            token = self.gerar_token(request.json['email'] , request.json['password'], cnpj)
+            if not self.validar_user(user, request.json):
+                raise Exception('User invalid')
+
+            token = self.gerar_token(user.get_email() , user.get_senha(), user.get_empresa().get_cnpj())
+
+            users.append(user)
 
         except Exception as ex:
             print(ex)
@@ -139,5 +149,11 @@ class User(object):
         else:
             return jsonify({'success': True, 'token': token}), 200
 
-    def encontrar_cnpj(self, empresa):
-        return '01222333000144';
+
+    def encontrar_user(self, email, empresa):
+        conn = get_conexao()
+        empresa = EmpresaDao(conn).obter_pelo_alias(empresa)
+        user = UsuarioDao(conn, empresa).obter_pelo_email(email)
+        conn.close()
+
+        return user

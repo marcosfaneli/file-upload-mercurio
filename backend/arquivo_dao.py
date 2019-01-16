@@ -1,47 +1,114 @@
-lista = [
-        {'descricao': "Arquivo em pdf",
-         'categoria': {'nome': "Teste", 'cor': "#fefefe", 'id': 1},
-         'keys': ["chave 1", "chave 2"],
-         'tipo': "PDF",
-         'usuario_postou': "Fulano de Tal",
-         'data_postado': "2018-12-12 15:30",
-         'visualizadores': [
-                {'nome': 'Fulano de Tal', 'data': "2018-12-12 15:35"},
-                {'nome': 'Beltrano de Tal', 'data': "2018-12-15 17:48"}
-             ],
-         'classificacao': 5,
-         'url': "http://teste/teste.pdf",
-         'id': 1
-        },
-        {'descricao': "Arquivo tipo Doc",
-         'categoria': {'nome': "Outros", 'cor': "#fcfefc", 'id': 2},
-         'keys': ["chave 1", "chave 3"],
-         'tipo': "DOC",
-         'usuario_postou': "Ciclano de Tal",
-         'data_postado': "2018-12-10 12:47",
-         'visualizadores': [
-                {'nome': 'Fulano de Tal', 'data': "2018-12-10 12:49"},
-                {'nome': 'Beltrano de Tal', 'data': "2018-12-15 17:50"}
-             ],
-         'classificacao': 3,
-         'url': "http://teste/teste.doc",
-         'id': 2
-         }
-        ]
-
+from conexao import get_conexao
+from empresa import Empresa
+from usuario import Usuario
+from arquivo import Arquivo
+from categoria_dao import CategoriaDao
 
 class ArquivoDao(object):
-    def __init__(self):
-        pass
+    def __init__(self, conn, usuario):
+        self.usuario = usuario
+        self.conn = conn
+
+    def __get_sql(self):
+        sql = "SELECT id, descricao, categoria_id, chave, usuario_id, data_criacao, hash, status, tipo, empresa_id, arquivo, hash "
+        sql += " FROM ged.arquivos "
+
+        return sql
 
 
-    def obter(obter, id):
-        return lista[0]
+    def obter(self, id):
+        sql = self.__get_sql()
+        sql += " where id = {} and usuario_id = {} and empresa_id = {}"
+        sql = sql.format(id, self.usuario.get_id(), self.usuario.get_empresa().get_id())
+        cursor = self.conn.cursor()
+        cursor.execute(sql)
+
+        rs = cursor.fetchone()
+
+        arquivo = self.__novo(rs)
+
+        cursor.close()
+
+        return arquivo
+
+
+    def __novo(self, rs):
+        keys = rs[3].split(";")
+        categoria = CategoriaDao(self.conn, self.usuario).obter_pelo_id(rs[2])
+
+        return Arquivo(rs[1], categoria, keys, rs[8], rs[5], self.usuario, rs[10], rs[0])
 
 
     def listar(self):
+        sql = self.__get_sql()
+        sql += " where usuario_id = {} and empresa_id = {}"
+        sql = sql.format(self.usuario.get_id(), self.usuario.get_empresa().get_id())
+
+        cursor = self.conn.cursor()
+        cursor.execute(sql)
+
+        lista = []
+
+        ds = cursor.fetchall()
+
+        for rs in ds:
+            lista.append(self.__novo(rs))
+
+        cursor.close()
+
+        return lista
+
+
+
+    def pesquisar(self, texto):
+        sql = self.__get_sql()
+        sql += " where usuario_id = {} and empresa_id = {} and lower(descricao||chave||arquivo) like '%{}%'"
+        sql = sql.format(self.usuario.get_id(), self.usuario.get_empresa().get_id(), texto.lower())
+
+        cursor = self.conn.cursor()
+        cursor.execute(sql)
+
+        lista = []
+
+        ds = cursor.fetchall()
+
+        for rs in ds:
+            lista.append(self.__novo(rs))
+
+        cursor.close()
+
         return lista
 
 
     def adicionar(self, arquivo):
-        lista.append(arquivo)
+        keys = ''
+        for key in arquivo.get_keys():
+            keys += '{};'.format(key)
+
+        sql = "INSERT INTO ged.arquivos "
+        sql += " (id, descricao, categoria_id, chave, usuario_id, data_criacao, hash, tipo, empresa_id, arquivo) "
+        sql += "VALUES "
+        sql += " (nextval('ged.seq_arquivo'), '{}', {}, '{}', {}, date(now()), '{}', '{}', {}, '{}') returning id "
+        sql = sql.format(arquivo.get_descricao(),
+                          arquivo.get_categoria().get_id(),
+                          keys,
+                          arquivo.get_usuario_postou().get_id(),
+                          arquivo.get_hash(),
+                          arquivo.get_tipo().upper(),
+                          arquivo.get_usuario_postou().get_empresa().get_id(),
+                          arquivo.get_arquivo())
+
+        print(sql)
+
+        cursor = self.conn.cursor()
+        cursor.execute(sql)
+
+        rs = cursor.fetchone()
+
+        id = rs[0]
+
+        self.conn.commit()
+
+        cursor.close()
+
+        return id

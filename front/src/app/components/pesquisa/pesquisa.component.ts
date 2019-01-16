@@ -28,7 +28,7 @@ export class PesquisaComponent implements OnInit {
   private buscarArquivos() {
     this.loading = true;
     if (this.texto) {
-      this.auth.ensureAuthenticatedGet(`pesquisa/${this.texto}`)
+      this.auth.ensureAuthenticatedGet(`find/${this.texto}`)
         .then((response) => {
           this.loading = false;
           this.arquivos = response.json().arquivos;

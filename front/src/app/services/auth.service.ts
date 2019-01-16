@@ -15,7 +15,7 @@ export class AuthService {
 
   constructor(private http: Http, private router: Router) {}
 
-  private getToken(): string {
+  public getToken(): string {
     return localStorage.getItem('token');
   }
 
@@ -34,6 +34,7 @@ export class AuthService {
       .toPromise()
       .then(res => {
         localStorage.removeItem('token');
+        this.router.navigateByUrl('login');
       });
   }
 

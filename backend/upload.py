@@ -1,16 +1,21 @@
-from session import User, check_authorization
+from session import check_authorization
 import os
 from flask import Flask, flash, request, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
+from conexao import get_conexao
+from arquivo import Arquivo
+from usuario_logado import UsuarioLogado
+from categoria_dao import CategoriaDao
+from arquivo_dao import ArquivoDao
+from config import UPLOAD_FOLDER
 
 
 class Upload(object):
     def __init__(self):
-        self.UPLOAD_FOLDER = 'c:/temp/'
         self.ALLOWED_EXTENSIONS = set(['txt', 'doc', 'docx', 'xls', 'xlsx', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
-    def allowed_file(self, filename):
+    def __allowed_file(self, filename):
         return '.' in filename and filename.rsplit('.', 1)[1].lower() in self.ALLOWED_EXTENSIONS
 
 
@@ -20,25 +25,41 @@ class Upload(object):
             if 'arquivo' not in request.files:
                 raise Exception('Não há arquivo')
 
-            print(request.form['descricao'])
-            print(request.form['chave'])
-            print(request.form['categoria'])
-
             file = request.files['arquivo']
 
             if file.filename == '':
                 raise Exception('Tipo de arquivo invalido')
 
-            if file and self.allowed_file(file.filename):
+            if file and self.__allowed_file(file.filename):
                 filename = secure_filename(file.filename)
-                file.save(os.path.join(self.UPLOAD_FOLDER, filename))
+                file.save(os.path.join(UPLOAD_FOLDER, filename))
             else:
                 raise Exception('Extensão não permitida')
 
-            id = 1
+            id = self.__inserir(request)
 
         except Exception as ex:
             print(ex)
             return jsonify({'success': False, 'message': ex.args}), 200
         else:
             return jsonify({'success': True, 'id': id}), 200
+
+
+    def __inserir(self, request):
+        conn = get_conexao()
+
+        usuario = UsuarioLogado().identificar_usuario(request)
+
+        keys = request.form['chave'].split(";")
+
+        categoria = request.form['categoria']
+        categoria = CategoriaDao(conn, usuario).obter_pelo_id(categoria)
+
+        file = request.files['arquivo']
+        tipo = file.filename.rsplit('.', 1)[1]
+
+        arquivo = Arquivo(request.form['descricao'], categoria, keys, tipo, '', usuario, file.filename, 0)
+        id = ArquivoDao(conn, usuario).adicionar(arquivo)
+        conn.close()
+
+        return id

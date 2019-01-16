@@ -1,20 +1,14 @@
-from flask import jsonify, request
-from session import User, check_authorization
-
-
 class Categoria(object):
-    def __init__(self):
-        pass
+    def __init__(self, id, nome, cor):
+        self.id = id
+        self.nome = nome
+        self.cor = cor
 
-    @check_authorization
-    def listar(self):
-        try:
-            categorias = [
-                {'id': 1, 'descricao': "Teste", 'cor': "#fefefe"},
-                {'id': 2, 'descricao': "Outros", 'cor': "#fefafa"}
-            ]
-        except Exception as ex:
-            print(ex)
-            return jsonify({'success': False, 'message': "Error listing"}), 404
-        else:
-            return jsonify({'success': True, 'categorias': categorias}), 200
+    def get_nome(self):
+        return self.nome
+
+    def get_id(self):
+        return self.id
+
+    def get_cor(self):
+        return self.cor
