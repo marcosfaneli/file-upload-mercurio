@@ -18,6 +18,9 @@
           <span *ngIf="arquivo.tipo == 'ZIP'" style="font-size: 1.2em; color: #fefefe;">
             <i class="far fa-file-archive"></i>
           </span>
+          <span *ngIf="arquivo.tipo == 'JPG'" style="font-size: 1.2em; color: #cc0;">
+            <i class="far fa-file-image"></i>
+          </span>
         </td>
         <td class="col-6 align-text-bottom">
           <h6>{{arquivo.descricao}}</h6>

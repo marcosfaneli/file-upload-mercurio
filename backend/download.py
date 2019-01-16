@@ -22,7 +22,6 @@ class Download(object):
 
             filename = arquivo.get_arquivo()
             print(filename)
-            # filename = 'Mapa_de_acao.pdf'
             uploads = os.path.join(current_app.root_path, UPLOAD_FOLDER)
             return send_from_directory(directory=uploads, filename=filename)
 

@@ -1,0 +1,21 @@
+<nav *ngIf="!logado" class="navbar navbar-expand-lg navbar-light bg-light">
+  <button id="button-sidebar" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="sidebar">
+    <a class="navbar-brand" href="#" (click)="toogleMenu()">
+      &nbsp;<img routerLink="/" alt="Fox Integrate" src="assets/logo.png" height="36">
+    </a>
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" href="#" routerLink="upload" (click)="toogleMenu()">Novo</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" routerLink="search" (click)="toogleMenu()">Pesquisar</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" routerLink="logout" (click)="toogleMenu()">Sair</button>
+    </form>
+  </div>
+</nav>

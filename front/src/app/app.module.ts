@@ -19,6 +19,8 @@ import { VizualizacaoComponent } from './components/vizualizacao/vizualizacao.co
 import { AuthService } from './services/auth.service';
 import { EnsureAuthenticatedService } from './services/ensure-authenticated.service';
 import { LoginRedirectService } from './services/login-redirect.service';
+import { MenuComponent } from './components/menu/menu.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { LoginRedirectService } from './services/login-redirect.service';
     PesquisaComponent,
     DetalheComponent,
     ListFileComponent,
-    VizualizacaoComponent
+    VizualizacaoComponent,
+    MenuComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

@@ -9,7 +9,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class InicioComponent implements OnInit {
 
-  texto: string;
+  carregando = true;
+  usuario = {nome: 'teste', tamanho_dados: 15, quantidade: 8};
 
   categorias: any[];
   arquivos: any[];
@@ -32,6 +33,7 @@ export class InicioComponent implements OnInit {
     this.auth.ensureAuthenticatedGet('recent')
       .then((response) => {
         this.arquivos = response.json().arquivos;
+        this.carregando = false;
       });
   }
 }

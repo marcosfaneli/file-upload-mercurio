@@ -26,6 +26,7 @@ export class LoginComponent {
       const token = user.json().token;
 
       localStorage.setItem('token', token);
+      localStorage.setItem('token-company', this.user.empresa);
 
       this.router.navigateByUrl('/');
     })

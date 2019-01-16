@@ -19,6 +19,10 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
+  public getCompany(): string {
+    return localStorage.getItem('token-company');
+  }
+
   logout(): Promise<any> {
 
     const token = this.getToken();
@@ -34,7 +38,7 @@ export class AuthService {
       .toPromise()
       .then(res => {
         localStorage.removeItem('token');
-        this.router.navigateByUrl('login');
+        this.router.navigateByUrl(`login/${this.getCompany()}`);
       });
   }
 

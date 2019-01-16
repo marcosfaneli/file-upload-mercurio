@@ -5,8 +5,10 @@
   </button>
 </div>
 <div class="login">
+  <div class="text-center">
+    <img src="assets/logo_.png">
+  </div>
   <div>
-    <h1>Login</h1>
     <hr>
     <form (ngSubmit)="onLogin()" novalidate>
     <input type="hidden" id="empresa" [(ngModel)]="user.empresa" name="empresa" required>
