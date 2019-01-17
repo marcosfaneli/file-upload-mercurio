@@ -1,8 +1,8 @@
 from flask import jsonify, request
-from session import check_authorization
-from conexao import get_conexao
-from usuario_logado import UsuarioLogado
-from categoria_dao import CategoriaDao
+from Routes.session import check_authorization
+from Common.conexao import get_conexao
+from Common.usuario_logado import UsuarioLogado
+from DAO.categoria_dao import CategoriaDao
 
 
 class Filtros(object):

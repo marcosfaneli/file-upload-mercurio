@@ -1,13 +1,13 @@
-from session import check_authorization
+from Routes.session import check_authorization
 import os
 from flask import Flask, flash, request, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
-from conexao import get_conexao
-from arquivo import Arquivo
-from usuario_logado import UsuarioLogado
-from categoria_dao import CategoriaDao
-from arquivo_dao import ArquivoDao
-from config import UPLOAD_FOLDER
+from Common.conexao import get_conexao
+from Model.arquivo import Arquivo
+from Common.usuario_logado import UsuarioLogado
+from DAO.categoria_dao import CategoriaDao
+from DAO.arquivo_dao import ArquivoDao
+from Common.config import UPLOAD_FOLDER
 
 
 class Upload(object):

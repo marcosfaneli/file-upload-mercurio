@@ -1,5 +1,5 @@
 import psycopg2
-from config import USERNAME, HOST, DBNAME, PASSWORD
+from Common.config import USERNAME, HOST, DBNAME, PASSWORD
 
 
 def get_conexao():

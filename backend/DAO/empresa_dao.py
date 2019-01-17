@@ -1,5 +1,5 @@
-from conexao import get_conexao
-from empresa import Empresa
+from Common.conexao import get_conexao
+from Model.empresa import Empresa
 
 class EmpresaDao:
     def __init__(self, conn):

@@ -2,11 +2,11 @@
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from session import Session
-from filtros import Filtros
-from upload import Upload
-from download import Download
-from ged import Ged
+from Routes.session import Session
+from Routes.filtros import Filtros
+from Routes.upload import Upload
+from Routes.download import Download
+from Routes.ged import Ged
 
 
 app = Flask(__name__)
