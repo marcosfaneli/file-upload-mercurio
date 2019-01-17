@@ -1,4 +1,4 @@
-from config import URL_FILES
+from Common.config import URL_FILES
 
 
 class Arquivo(object):
@@ -37,9 +37,6 @@ class Arquivo(object):
 
     def get_data_postado(self):
         return self.data_postado
-
-    def get_categoria(self):
-        return self.categoria
 
     def get_arquivo(self):
         return self.arquivo

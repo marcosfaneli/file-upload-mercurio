@@ -3,10 +3,10 @@ from flask import jsonify, request
 from datetime import datetime, timedelta
 import string
 import jwt
-from empresa_dao import EmpresaDao
-from usuario_dao import UsuarioDao
-from conexao import get_conexao
-from config import KEY
+from DAO.empresa_dao import EmpresaDao
+from DAO.usuario_dao import UsuarioDao
+from Common.conexao import get_conexao
+from Common.config import KEY
 
 
 users = []
