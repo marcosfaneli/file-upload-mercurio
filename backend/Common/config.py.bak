@@ -1,7 +1,0 @@
-USERNAME = 'foxintegrate'
-DBNAME = 'foxintegrate'
-HOST = 'pgsql.foxintegrate.com'
-PASSWORD = 'nalcac17'
-KEY = 'meupiru'
-URL_FILES = 'http://foxintegrate.com'
-UPLOAD_FOLDER = 'c:/temp/'

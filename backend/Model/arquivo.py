@@ -1,4 +1,4 @@
-from Common.config import URL_FILES
+from common.config import URL_FILES
 
 
 class Arquivo(object):

@@ -1,8 +1,8 @@
 from flask import jsonify, request
-from DAO.arquivo_dao import ArquivoDao
-from Common.usuario_logado import UsuarioLogado
-from Common.conexao import get_conexao
-from Routes.session import check_authorization
+from dao.arquivo_dao import ArquivoDao
+from common.usuario_logado import UsuarioLogado
+from common.conexao import get_conexao
+from routes.session import check_authorization
 
 
 class Ged(object):
