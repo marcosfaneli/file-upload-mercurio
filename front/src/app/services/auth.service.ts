@@ -66,7 +66,9 @@ export class AuthService {
       .toPromise()
       .catch((err) => {
         console.error(err);
-        this.router.navigateByUrl('/logout');
+        if (err.status === 401) {
+          this.router.navigateByUrl('/logout');
+        }
       });
   }
 
@@ -85,7 +87,9 @@ export class AuthService {
       .toPromise()
       .catch((err) => {
         console.error(err);
-        this.router.navigateByUrl('/logout');
+        if (err.status === 401) {
+          this.router.navigateByUrl('/logout');
+        }
       });
   }
   getUrl(route: string): any {
@@ -104,7 +108,9 @@ export class AuthService {
       .toPromise()
       .catch((err) => {
         console.error(err);
-        this.router.navigateByUrl('/logout');
+        if (err.status === 401) {
+          this.router.navigateByUrl('/logout');
+        }
       });
   }
 }
