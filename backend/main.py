@@ -2,11 +2,11 @@
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from Routes.session import Session
-from Routes.filtros import Filtros
-from Routes.upload import Upload
-from Routes.download import Download
-from Routes.ged import Ged
+from routes.session import Session
+from routes.filtros import Filtros
+from routes.upload import Upload
+from routes.download import Download
+from routes.ged import Ged
 
 
 app = Flask(__name__)
@@ -58,4 +58,4 @@ def teste():
     return 'online', 200;
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)    

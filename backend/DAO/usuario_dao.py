@@ -1,6 +1,6 @@
-from Common.conexao import get_conexao
-from Model.empresa import Empresa
-from Model.usuario import Usuario
+from common.conexao import get_conexao
+from model.empresa import Empresa
+from model.usuario import Usuario
 
 class UsuarioDao(object):
     def __init__(self, conn, empresa):

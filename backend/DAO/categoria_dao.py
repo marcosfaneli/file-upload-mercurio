@@ -1,4 +1,4 @@
-from Model.categoria import Categoria
+from model.categoria import Categoria
 
 class CategoriaDao(object):
     def __init__(self, conn, usuario):

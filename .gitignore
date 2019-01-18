@@ -5,6 +5,7 @@
 /dist-server
 /tmp
 /out-tsc
+/env
 
 # dependencies
 /node_modules
@@ -44,4 +45,5 @@ Thumbs.db
 front/package-lock.json
 backend/.vscode/launch.json
 front/package-lock.json
-front/package-lock.json
+backend/.vscode/settings.json
+

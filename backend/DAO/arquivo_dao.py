@@ -1,8 +1,8 @@
-from Common.conexao import get_conexao
-from Model.empresa import Empresa
-from Model.usuario import Usuario
-from Model.arquivo import Arquivo
-from DAO.categoria_dao import CategoriaDao
+from common.conexao import get_conexao
+from model.empresa import Empresa
+from model.usuario import Usuario
+from model.arquivo import Arquivo
+from dao.categoria_dao import CategoriaDao
 
 class ArquivoDao(object):
     def __init__(self, conn, usuario):
