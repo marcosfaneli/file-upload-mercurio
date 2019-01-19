@@ -75,3 +75,9 @@ CREATE INDEX arquivos_id_idx ON ged.arquivos USING btree (id) ;
 CREATE INDEX arquivos_status_idx ON ged.arquivos USING btree (status) ;
 CREATE INDEX arquivos_tipo_idx ON ged.arquivos USING btree (tipo) ;
 CREATE INDEX arquivos_usuario_id_idx ON ged.arquivos USING btree (usuario_id) ;
+
+CREATE SEQUENCE acesso.seq_solicitacao
+INCREMENT BY 1
+MINVALUE 1
+MAXVALUE 9223372036854775807
+START 1;

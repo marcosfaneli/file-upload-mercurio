@@ -7,6 +7,7 @@ from routes.filtros import Filtros
 from routes.upload import Upload
 from routes.download import Download
 from routes.ged import Ged
+from routes.register import Register
 
 
 app = Flask(__name__)
@@ -35,7 +36,7 @@ def status():
 
 @app.route('/auth/register', methods=['POST'])
 def register():
-    return Session().register(request)
+    return Register(request).register()
 
 @app.route('/auth/login', methods=['POST'])
 def login():
@@ -58,4 +59,4 @@ def teste():
     return 'online', 200;
 
 if __name__ == "__main__":
-    app.run(debug=True)    
+    app.run()    
