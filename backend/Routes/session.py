@@ -104,24 +104,6 @@ class Session(object):
         return jsonify({'success': True}), 200
 
 
-    def register(self, request):
-        try:
-            email = request.json['email']
-            password = request.json['senha']
-            cnpj = request.json['cnpj']
-            nome = request.json['nome']
-
-            user = {'email': email, 'password': password, 'cnpj': cnpj, 'nome': nome}
-
-            users.append(user)
-
-        except Exception as ex:
-            print(ex)
-            return jsonify({'success': False, 'message': "User invalid"}), 401
-        else:
-            return jsonify({'success': True}), 200;
-
-
     def login(self, request):
         empresa = ''
 
