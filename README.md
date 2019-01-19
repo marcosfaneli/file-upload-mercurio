@@ -6,4 +6,4 @@ Aplicação para upload de arquivos usando Python-Flask com interface Angular 4 
     Version: 1.3.2
     
   Python
-    Version: 3.5
+    Version: 3.6
