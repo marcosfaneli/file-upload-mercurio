@@ -1,5 +1,7 @@
 from common.conexao import get_conexao
 from model.solicitacao import Solicitacao
+from model.usuario import Usuario
+import datetime
 
 class RegisterDAO(object):
     def __init__(self, conn, solicitacao):
@@ -22,9 +24,6 @@ class RegisterDAO(object):
 
         return self.solicitacao;
 
-    def aceitarSolicitacao(self):
-        pass
-
     def verificarSolicitacao(self):
         try:
             sql = " select s.id, s.email, s.cnpj, s.senha, s.nome"
@@ -44,3 +43,61 @@ class RegisterDAO(object):
             raise Exception(ex)
         else:
             return retorno
+
+    def buscarSolicitacao(self, id):
+        try:
+            sql =  " select s.nome"
+            sql += "       ,s.email"
+            sql += "       ,s.senha"
+            sql += "       ,e.id as id_empresa"            
+            sql += " from acesso.solicitacoes s"
+            sql += " inner join acesso.empresas e on (e.cnpj = s.cnpj)"
+            sql += " where s.id = '{}'"
+            sql = sql.format(id)
+
+            cursor = self.conn.cursor()
+            cursor.execute(sql)
+
+            rs = cursor.fetchone()
+
+            usuario = []
+
+            if rs != None:
+                usuario = Usuario(rs[3], 0, rs[0], rs[1], rs[2])
+
+
+        except Exception as ex:
+            raise Exception(ex)
+        else:
+            return usuario
+
+    def aprovar_registro(self, usuario):
+        try:
+            sql = " INSERT INTO acesso.usuarios (id, nome, email, senha, empresa_id, data_criacao, status)"
+            sql += " VALUES(nextval('acesso.seq_usuario'), '{}', '{}', '{}', '{}', '{}', 1) returning id"
+            sql = sql.format(usuario.get_nome(), usuario.get_email(), usuario.get_senha(), usuario.get_empresa(), datetime.datetime.now())
+
+            cursor = self.conn.cursor()
+            cursor.execute(sql)            
+            rs = cursor.fetchone()
+            id = rs[0]
+            self.conn.commit()
+            cursor.close()
+        except Exception as ex:
+            raise Exception(ex)
+        else:
+            return id
+
+    def excluir_solicitacao(self, id):
+        try:
+            sql = "delete from acesso.solicitacoes where id = '{}'".format(id)
+
+            cursor = self.conn.cursor()
+            cursor.execute(sql)
+            self.conn.commit()
+            cursor.close()
+        except Exception as ex:
+            raise Exception(ex)
+        else:
+            return "solicitação excluída."
+            
