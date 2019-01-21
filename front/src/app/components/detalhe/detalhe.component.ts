@@ -11,6 +11,9 @@ export class DetalheComponent implements OnInit {
 
   arquivo: any = {};
   id: string;
+  error = false;
+  error_message = '';
+  carregando = true;
 
   constructor(private auth: AuthService, private route: ActivatedRoute, private router: Router) {
     this.route.params.subscribe(params => {
@@ -28,6 +31,12 @@ export class DetalheComponent implements OnInit {
     this.auth.ensureAuthenticatedGet(`detail/${this.id}`)
     .then((response) => {
       this.arquivo = response.json().arquivo;
+      this.carregando = false;
+    })
+    .catch(err => {
+      this.error = true;
+      this.error_message = err.message;
+      console.error(err);
     });
   }
 

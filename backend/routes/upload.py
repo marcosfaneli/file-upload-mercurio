@@ -12,7 +12,7 @@ from common.config import UPLOAD_FOLDER
 
 class Upload(object):
     def __init__(self):
-        self.ALLOWED_EXTENSIONS = set(['txt', 'doc', 'docx', 'xls', 'xlsx', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+        self.ALLOWED_EXTENSIONS = set(['txt', 'doc', 'docx', 'xls', 'xlsx', 'pdf', 'png', 'jpg', 'jpeg', 'zip'])
 
 
     def __allowed_file(self, filename):
@@ -40,7 +40,7 @@ class Upload(object):
 
         except Exception as ex:
             print(ex)
-            return jsonify({'success': False, 'message': ex.args}), 200
+            return jsonify({'success': False, 'message': ex.args}), 500
         else:
             return jsonify({'success': True, 'id': id}), 200
 
@@ -57,8 +57,11 @@ class Upload(object):
 
         file = request.files['arquivo']
         tipo = file.filename.rsplit('.', 1)[1]
+        tamanho = os.path.getsize ('{}/{}'.format(UPLOAD_FOLDER, file.filename))
+        print(tamanho)
+        tamanho = tamanho / 1024 / 1024
 
-        arquivo = Arquivo(request.form['descricao'], categoria, keys, tipo, '', usuario, file.filename, 0)
+        arquivo = Arquivo(request.form['descricao'], categoria, keys, tipo, '', usuario, file.filename, tamanho, 0)
         id = ArquivoDao(conn, usuario).adicionar(arquivo)
         conn.close()
 

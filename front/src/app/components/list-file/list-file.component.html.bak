@@ -21,12 +21,6 @@
           <span *ngIf="arquivo.tipo == 'JPG'" style="font-size: 1.2em; color: #cc0;">
             <i class="far fa-file-image"></i>
           </span>
-          <span *ngIf="arquivo.tipo == 'PNG'" style="font-size: 1.2em; color: #cc0;">
-            <i class="far fa-file-image"></i>
-          </span>
-          <span *ngIf="arquivo.tipo == 'TXT'" style="font-size: 1.2em; color: #aaa;">
-            <i class="far fa-file-alt"></i>
-          </span>
         </td>
         <td class="col-6 align-text-bottom">
           <h6>{{arquivo.descricao}}</h6>

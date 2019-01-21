@@ -1,9 +1,9 @@
 <app-loading [exibir]="carregando"></app-loading>
 <div *ngIf="!carregando" class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h1 class="display-4">Olá {{usuario.nome}}</h1>
-    <p class="lead">Você já enviou {{usuario.quantidade}} arquivos</p>
-    <p class="lead">Espaço ocupado {{usuario.tamanho_dados}} MB</p>
+    <h1 class="display-4">Olá {{profile.nome}}</h1>
+    <p class="lead">Você já enviou {{profile.quantidade_arquivos}} arquivos</p>
+    <p class="lead">Espaço ocupado {{profile.tamanho_arquivos}} MB</p>
   </div>
 </div>
 <div *ngIf="!carregando" class="margem">

@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 export class InicioComponent implements OnInit {
 
   carregando = true;
-  usuario = {nome: 'teste', tamanho_dados: 15, quantidade: 8};
+  profile: any;
 
   categorias: any[];
   arquivos: any[];
@@ -18,8 +18,15 @@ export class InicioComponent implements OnInit {
   constructor(private auth: AuthService) { }
 
   ngOnInit() {
+    this.carregarProfile();
     this.carregarCategorias();
     this.carregarArquivos();
+  }
+  carregarProfile(): any {
+    this.auth.ensureAuthenticatedGet('status')
+      .then((response) => {
+        this.profile = response.json().profile;
+      });
   }
 
   private carregarCategorias() {

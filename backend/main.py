@@ -32,7 +32,7 @@ def logout():
 
 @app.route('/status', methods=['GET'])
 def status():
-    return Session().status()
+    return Session().status(request)
 
 @app.route('/auth/register', methods=['POST'])
 def register():
@@ -59,4 +59,4 @@ def teste():
     return 'online', 200;
 
 if __name__ == "__main__":
-    app.run()    
+    app.run(debug=True)

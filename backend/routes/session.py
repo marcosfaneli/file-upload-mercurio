@@ -5,6 +5,7 @@ import string
 import jwt
 from dao.empresa_dao import EmpresaDao
 from dao.usuario_dao import UsuarioDao
+from dao.profile_dao import ProfileDao
 from common.conexao import get_conexao
 from common.config import KEY
 
@@ -100,8 +101,14 @@ class Session(object):
 
 
     @check_authorization
-    def status(self):
-        return jsonify({'success': True}), 200
+    def status(self, request):
+        authorization = request.headers.get('Authorization')
+
+        token = jwt.decode(authorization, KEY, algorithms=['HS256'])
+
+        profile = self.__load_profile(token['user'], token['cnpj'])
+
+        return jsonify({'profile': profile, 'success': True}), 200
 
 
     def login(self, request):
@@ -139,3 +146,20 @@ class Session(object):
         conn.close()
 
         return user
+
+    def __load_profile(self, email, cnpj):
+        conn = get_conexao()
+
+        empresa = EmpresaDao(conn).obter_pelo_cnpj(cnpj)
+        user = UsuarioDao(conn, empresa).obter_pelo_email(email)
+        profile = ProfileDao(conn, user).obter_profile()
+
+        profile = {
+            'nome': user.get_nome(),
+            'quantidade_arquivos': profile.get_quantidade(),
+            'tamanho_arquivos': '{:18.2f}'.format(profile.get_tamanho())
+        }
+
+        conn.close()
+
+        return profile

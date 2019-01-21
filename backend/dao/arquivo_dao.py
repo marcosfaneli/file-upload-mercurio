@@ -10,7 +10,7 @@ class ArquivoDao(object):
         self.conn = conn
 
     def __get_sql(self):
-        sql = "SELECT id, descricao, categoria_id, chave, usuario_id, data_criacao, hash, status, tipo, empresa_id, arquivo, hash "
+        sql = "SELECT id, descricao, categoria_id, chave, usuario_id, data_criacao, hash, status, tipo, empresa_id, arquivo, hash, tamanho "
         sql += " FROM ged.arquivos "
 
         return sql
@@ -34,15 +34,42 @@ class ArquivoDao(object):
 
     def __novo(self, rs):
         keys = rs[3].split(";")
+        if keys[-1] == '':
+            keys = keys[:-1]
+
         categoria = CategoriaDao(self.conn, self.usuario).obter_pelo_id(rs[2])
 
-        return Arquivo(rs[1], categoria, keys, rs[8], rs[5], self.usuario, rs[10], rs[0])
+        return Arquivo(rs[1], categoria, keys, rs[8], rs[5], self.usuario, rs[10], rs[12], rs[0])
 
 
     def listar(self):
         sql = self.__get_sql()
         sql += " where usuario_id = {} and empresa_id = {}"
         sql = sql.format(self.usuario.get_id(), self.usuario.get_empresa().get_id())
+
+        cursor = self.conn.cursor()
+        cursor.execute(sql)
+
+        lista = []
+
+        ds = cursor.fetchall()
+
+        for rs in ds:
+            lista.append(self.__novo(rs))
+
+        cursor.close()
+
+        return lista
+
+    def listar(self, pagina, quantidade):
+
+        inicio = (pagina - 1) * quantidade
+        fim = quantidade * pagina
+
+        sql = self.__get_sql()
+        sql += " where usuario_id = {} and empresa_id = {} "
+        sql += " limit {} offset {}"
+        sql = sql.format(self.usuario.get_id(), self.usuario.get_empresa().get_id(), fim, inicio)
 
         cursor = self.conn.cursor()
         cursor.execute(sql)
@@ -86,9 +113,9 @@ class ArquivoDao(object):
             keys += '{};'.format(key)
 
         sql = "INSERT INTO ged.arquivos "
-        sql += " (id, descricao, categoria_id, chave, usuario_id, data_criacao, hash, tipo, empresa_id, arquivo) "
+        sql += " (id, descricao, categoria_id, chave, usuario_id, data_criacao, hash, tipo, empresa_id, arquivo, tamanho) "
         sql += "VALUES "
-        sql += " (nextval('ged.seq_arquivo'), '{}', {}, '{}', {}, date(now()), '{}', '{}', {}, '{}') returning id "
+        sql += " (nextval('ged.seq_arquivo'), '{}', {}, '{}', {}, current_timestamp, '{}', '{}', {}, '{}', {}) returning id "
         sql = sql.format(arquivo.get_descricao(),
                           arquivo.get_categoria().get_id(),
                           keys,
@@ -96,7 +123,8 @@ class ArquivoDao(object):
                           arquivo.get_hash(),
                           arquivo.get_tipo().upper(),
                           arquivo.get_usuario_postou().get_empresa().get_id(),
-                          arquivo.get_arquivo())
+                          arquivo.get_arquivo(),
+                          arquivo.get_tamanho())
 
         print(sql)
 

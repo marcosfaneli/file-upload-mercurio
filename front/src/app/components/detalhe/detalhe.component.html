@@ -1,4 +1,11 @@
-<div class="margem">
+<div *ngIf="error" class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Arquivo não encontrado</strong> {{error_message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<app-loading [exibir]="carregando"></app-loading>
+<div *ngIf="!carregando" class="margem">
   <div *ngIf="!arquivo">
     O arquivo indicado não foi encontrado.
   </div>

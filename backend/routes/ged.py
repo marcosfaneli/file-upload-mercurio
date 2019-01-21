@@ -31,7 +31,7 @@ class Ged(object):
         try:
             conn = get_conexao()
             user = UsuarioLogado().identificar_usuario(self.request)
-            arquivos = ArquivoDao(conn, user).listar()
+            arquivos = ArquivoDao(conn, user).listar(1,10)
 
             lista = []
 
@@ -65,6 +65,7 @@ class Ged(object):
                    'visualizadores': visualizadores,
                    'classificacao': item.get_classificacao(),
                    'url': item.get_url(),
+                   'tamanho': str(item.get_tamanho()),
                    'id': item.get_id()
                   }
 
