@@ -38,6 +38,10 @@ def status():
 def register():
     return Register(request).register()
 
+@app.route('/auth/accept_register', methods=['POST'])
+def accept_register():
+    return Register(request).accept_register()    
+
 @app.route('/auth/login', methods=['POST'])
 def login():
     return Session().login(request)
