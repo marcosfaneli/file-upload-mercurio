@@ -4,9 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { URL_SERVICE } from '../../constantes';
 
 @Component({
-  selector: 'app-vizualizacao',
-  templateUrl: './vizualizacao.component.html',
-  styleUrls: ['./vizualizacao.component.css']
+  selector: 'app-view',
+  templateUrl: './view.component.html',
+  styleUrls: ['./view.component.css']
 })
 export class VizualizacaoComponent implements OnInit {
 

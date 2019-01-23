@@ -4,7 +4,7 @@ import { User } from '../models/user';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/toPromise';
 import { URL_SERVICE } from '../constantes';
-import { Solicitacao } from '../models/solicitacao';
+import { Solicitacao } from '../models/request';
 
 @Injectable()
 export class AuthService {

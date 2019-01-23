@@ -3,9 +3,9 @@ import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-detalhe',
-  templateUrl: './detalhe.component.html',
-  styleUrls: ['./detalhe.component.css']
+  selector: 'app-detail',
+  templateUrl: './detail.component.html',
+  styleUrls: ['./detail.component.css']
 })
 export class DetalheComponent implements OnInit {
 

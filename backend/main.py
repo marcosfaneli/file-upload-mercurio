@@ -40,7 +40,11 @@ def register():
 
 @app.route('/auth/accept_register', methods=['POST'])
 def accept_register():
-    return Register(request).accept_register()    
+    return Register(request).accept_register()
+
+@app.route('/auth/requests', methods=['GET'])
+def list_requests():
+    return Register(request).all_registers()
 
 @app.route('/auth/login', methods=['POST'])
 def login():

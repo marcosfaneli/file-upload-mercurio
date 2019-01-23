@@ -1,3 +1,9 @@
+<div *ngIf="error" class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Solicitação não confirmada</strong> {{error_message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 <div class="margem">
   <form #form="ngForm">
     <h2>Buscar arquivos</h2>
@@ -12,5 +18,6 @@
   </form>
 </div>
 <div class="margem">
-  <app-list-file [arquivos]="arquivos"></app-list-file>
+  <h3 *ngIf="arquivos.length === 0 && quantidadeBuscas > 0">Não foram encontrados resultados</h3>
+  <app-list-file *ngIf="arquivos.length > 0" [arquivos]="arquivos"></app-list-file>
 </div>
