@@ -6,15 +6,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { InicioComponent } from './components/inicio/inicio.component';
+import { InicioComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';
 import { StatusComponent } from './components/status/status.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { UploadComponent } from './components/upload/upload.component';
-import { PesquisaComponent } from './components/pesquisa/pesquisa.component';
-import { DetalheComponent } from './components/detalhe/detalhe.component';
+import { PesquisaComponent } from './components/search/search.component';
+import { DetalheComponent } from './components/detail/detail.component';
 import { ListFileComponent } from './components/list-file/list-file.component';
-import { VizualizacaoComponent } from './components/vizualizacao/vizualizacao.component';
+import { VizualizacaoComponent } from './components/view/view.component';
+import { RequestComponent } from './components/request/request.component';
+import { EventComponent } from './components/event/event.component';
 
 import { AuthService } from './services/auth.service';
 import { EnsureAuthenticatedService } from './services/ensure-authenticated.service';
@@ -36,7 +38,9 @@ import { LoadingComponent } from './components/loading/loading.component';
     ListFileComponent,
     VizualizacaoComponent,
     MenuComponent,
-    LoadingComponent
+    LoadingComponent,
+    RequestComponent,
+    EventComponent
   ],
   imports: [
     BrowserModule,
@@ -49,11 +53,13 @@ import { LoadingComponent } from './components/loading/loading.component';
       { path: 'register', component: RegisterComponent, canActivate: [LoginRedirectService] },
       { path: 'status', component: StatusComponent, canActivate: [EnsureAuthenticatedService] },
       { path: 'upload', component: UploadComponent, canActivate: [EnsureAuthenticatedService] },
-      { path: 'search/:texto', component: PesquisaComponent, canActivate: [EnsureAuthenticatedService] },
+      { path: 'search/:text', component: PesquisaComponent, canActivate: [EnsureAuthenticatedService] },
       { path: 'search', component: PesquisaComponent, canActivate: [EnsureAuthenticatedService] },
+      { path: 'request', component: RequestComponent, canActivate: [EnsureAuthenticatedService] },
       { path: 'detail/:id', component: DetalheComponent, canActivate: [EnsureAuthenticatedService] },
       { path: 'view/:id', component: VizualizacaoComponent, canActivate: [EnsureAuthenticatedService] },
       { path: 'logout', component: LogoutComponent, canActivate: [EnsureAuthenticatedService] },
+      { path: 'event', component: EventComponent, canActivate: [EnsureAuthenticatedService] },
       { path: '', component: InicioComponent, canActivate: [EnsureAuthenticatedService]},
       { path: '**', redirectTo: ''}
     ])

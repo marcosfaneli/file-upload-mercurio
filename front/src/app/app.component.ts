@@ -11,7 +11,7 @@ export class AppComponent {
 
   constructor(private router: Router) {
     router.events.subscribe((val) => {
-        this.logado = val['url'].includes('login');
+        this.logado = val['url'].includes('login') || val['url'].includes('register');
     });
   }
 }

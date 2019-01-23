@@ -15,11 +15,13 @@ class UsuarioLogado(object):
 
         return self.__encontrar_user(token['user'], token['cnpj'])
 
+
     def identificar_usuario(self, request):
         authorization = request.headers.get('Authorization')
         token = jwt.decode(authorization, KEY, algorithms=['HS256'])
 
         return self.__encontrar_user(token['user'], token['cnpj'])
+
 
     def __encontrar_user(self, email, cnpj):
         conn = get_conexao()
