@@ -36,7 +36,7 @@ def status():
 
 @app.route('/auth/register', methods=['POST'])
 def register():
-    return Register(request).register()
+    return Register(request).register(app)
 
 @app.route('/auth/accept_register', methods=['POST'])
 def accept_register():

@@ -6,12 +6,13 @@ from routes.session import check_authorization
 from dao.register_dao import RegisterDAO
 from model.solicitacao import Solicitacao
 from model.usuario import Usuario
+from common.envio_email import EnvioEmail
 
 class Register(object):
     def __init__(self, request):
         self.request = request
 
-    def register(self):
+    def register(self, app):
         try:
             email = self.request.json['email']
             password = self.request.json['senha']
@@ -28,6 +29,8 @@ class Register(object):
                 raise Exception("Já existe uma solicitação para o email: '{}'".format(register.get_email()))
 
             register = RegisterDAO(conn, solicitacao).new()
+
+            email = EnvioEmail(solicitacao.get_email(), app).enviar_confirmacao()
 
             conn.close()
 
