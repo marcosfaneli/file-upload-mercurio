@@ -12,7 +12,7 @@ class ProfileDao(object):
 
 
     def obter_profile(self):
-        sql = "select count(1) as quantidade , sum(a.tamanho) as tamanho from ged.arquivos a where a.usuario_id = {}".format(self.usuario.get_id())
+        sql = "select count(1) as quantidade , coalesce(sum(a.tamanho),0) as tamanho from ged.arquivos a where a.usuario_id = {}".format(self.usuario.get_id())
         cursor = self.conn.cursor()
         cursor.execute(sql)
 
