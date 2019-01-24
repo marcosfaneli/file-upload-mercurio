@@ -40,7 +40,7 @@ class RegisterDAO(object):
         finally:
             cursor.close()
 
-    def verificarSolicitacao(self):
+    def verificar_solicitacao(self):
         try:
             sql = " select s.id, s.email, s.cnpj, s.senha, s.nome"
             sql += " from acesso.solicitacoes s"
@@ -60,7 +60,26 @@ class RegisterDAO(object):
         else:
             return retorno
 
-    def buscarSolicitacao(self, id):
+    def verificar_email_solicitado(self):
+        try:
+            sql = " select count(u.*)"
+            sql += " from acesso.usuarios u"
+            sql += " where u.email = '{}'"
+            sql = sql.format(self.solicitacao.get_email())
+
+            cursor = self.conn.cursor()
+            cursor.execute(sql)
+
+            rs = cursor.fetchone()
+
+            retorno = rs[0]
+            
+        except Exception as ex:
+            raise Exception(ex)
+        else:
+            return retorno
+
+    def buscar_solicitacao(self, id):
         try:
             sql =  " select s.nome"
             sql += "       ,s.email"
