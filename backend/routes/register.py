@@ -26,22 +26,27 @@ class Register(object):
 
             conn = get_conexao()
 
-            register = RegisterDAO(conn, solicitacao).verificarSolicitacao()
+            register = RegisterDAO(conn, solicitacao).verificar_solicitacao()
 
             if (register.get_id() != ''):
                 raise Exception("Já existe uma solicitação para o email: '{}'".format(register.get_email()))
 
+            usuario_encontrado = RegisterDAO(conn, solicitacao).verificar_email_solicitado()
+
+            if (usuario_encontrado > 0):
+                raise Exception("Email solicitado já cadastrado.")
+
             register = RegisterDAO(conn, solicitacao).new()
 
-            email = EnvioEmail(solicitacao.get_email(), app).enviar_confirmacao()
-
-            conn.close()
+            email = EnvioEmail(solicitacao.get_email(), app).enviar_confirmacao()            
 
         except Exception as ex:
             print(ex)
             return jsonify({'success': False, 'message': str(ex)}), 500
         else:
             return jsonify({'success': True, 'id_solicitacao': register.get_id(), 'email_confirmacao': email}), 200;
+        finally:
+            conn.close()
 
 
     def validar_email(self, token):
@@ -64,7 +69,7 @@ class Register(object):
 
             id = self.request.json['id']
 
-            usuario = RegisterDAO(conn, None).buscarSolicitacao(id)
+            usuario = RegisterDAO(conn, None).buscar_solicitacao(id)
 
             if (usuario.get_nome == ''):
                 raise Exception("Nenhuma solicitação encontrada para o ID: '{}'.".format(id))
