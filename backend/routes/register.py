@@ -7,10 +7,13 @@ from dao.register_dao import RegisterDAO
 from model.solicitacao import Solicitacao
 from model.usuario import Usuario
 from common.envio_email import EnvioEmail
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
+from common.config import KEY
 
 class Register(object):
     def __init__(self, request):
         self.request = request
+        self.s = URLSafeTimedSerializer(KEY)
 
     def register(self, app):
         try:
@@ -38,8 +41,22 @@ class Register(object):
             print(ex)
             return jsonify({'success': False, 'message': str(ex)}), 500
         else:
-            return jsonify({'success': True, 'id_solicitacao': register.get_id()}), 200;
+            return jsonify({'success': True, 'id_solicitacao': register.get_id(), 'email_confirmacao': email}), 200;
 
+
+    def validar_email(self, token):
+        try:
+            email = self.s.loads(token, salt='email-confirm', max_age=3600)
+
+            conn = get_conexao()
+            confirmar = RegisterDAO(conn, None).confirmar_email(email)
+
+        except SignatureExpired:
+            return jsonify({'success': False, 'message': "O email de confirmação expirou, solicite um novo cadastro."}), 500            
+        else:
+            return jsonify({'success': True, 'message': confirmar}), 200;
+        finally:
+            conn.close()
 
     def accept_register(self):
         try:

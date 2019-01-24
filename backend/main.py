@@ -34,6 +34,10 @@ def logout():
 def status():
     return Session().status(request)
 
+@app.route('/confirm_email/<token>', methods=['GET'])
+def confirm_email(token):
+    return Register(request).validar_email(token)
+
 @app.route('/auth/register', methods=['POST'])
 def register():
     return Register(request).register(app)

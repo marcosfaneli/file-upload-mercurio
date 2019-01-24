@@ -19,10 +19,26 @@ class RegisterDAO(object):
 
         rs = cursor.fetchone()
         self.solicitacao.id = rs[0]
-        self.conn.commit();
-        cursor.close;
+        self.conn.commit()
+        cursor.close()
 
         return self.solicitacao;
+
+    def confirmar_email(self, email):
+        try:
+            sql = "UPDATE acesso.solicitacoes set status = 2 where email = '{}'".format(email)
+            
+            cursor = self.conn.cursor()
+            cursor.execute(sql)
+
+            self.conn.commit()
+
+        except Exception as ex:
+            raise Exception(ex)            
+        else:
+            return dict({'status': "2"})   
+        finally:
+            cursor.close()
 
     def verificarSolicitacao(self):
         try:
@@ -111,7 +127,7 @@ class RegisterDAO(object):
         except Exception as ex:
             raise Exception(ex)
         else:
-            return id
+            return id     
 
     def excluir_solicitacao(self, id):
         try:
