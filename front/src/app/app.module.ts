@@ -23,6 +23,8 @@ import { EnsureAuthenticatedService } from './services/ensure-authenticated.serv
 import { LoginRedirectService } from './services/login-redirect.service';
 import { MenuComponent } from './components/menu/menu.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { NotfoundComponent } from './components/notfound/notfound.component';
+import { ErrorComponent } from './components/error/error.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { LoadingComponent } from './components/loading/loading.component';
     MenuComponent,
     LoadingComponent,
     RequestComponent,
-    EventComponent
+    EventComponent,
+    NotfoundComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -59,9 +63,10 @@ import { LoadingComponent } from './components/loading/loading.component';
       { path: 'detail/:id', component: DetalheComponent, canActivate: [EnsureAuthenticatedService] },
       { path: 'view/:id', component: VizualizacaoComponent, canActivate: [EnsureAuthenticatedService] },
       { path: 'logout', component: LogoutComponent, canActivate: [EnsureAuthenticatedService] },
-      { path: 'event', component: EventComponent, canActivate: [EnsureAuthenticatedService] },
+      { path: 'new', component: EventComponent, canActivate: [EnsureAuthenticatedService] },
+      { path: 'notfound', component: NotfoundComponent, canActivate: [EnsureAuthenticatedService]},
       { path: '', component: InicioComponent, canActivate: [EnsureAuthenticatedService]},
-      { path: '**', redirectTo: ''}
+      { path: '**', redirectTo: 'notfound'}
     ])
   ],
   providers: [

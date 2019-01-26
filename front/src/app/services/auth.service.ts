@@ -64,12 +64,7 @@ export class AuthService {
 
     return this.http.get(url, {headers: headers})
       .toPromise()
-      .catch((err) => {
-        console.error(err);
-        if (err.status === 401) {
-          this.router.navigateByUrl('/logout');
-        }
-      });
+      .catch(this.handleError);
   }
 
   ensureAuthenticatedPost(route: string, payload: any): Promise<any> {
@@ -85,12 +80,7 @@ export class AuthService {
 
     return this.http.post(url, payload, {headers: headers})
       .toPromise()
-      .catch((err) => {
-        console.error(err);
-        if (err.status === 401) {
-          this.router.navigateByUrl('/logout');
-        }
-      });
+      .catch(this.handleError);
   }
   getUrl(route: string): any {
     return `${URL_SERVICE}/${route}`;
@@ -106,11 +96,14 @@ export class AuthService {
 
     return this.http.post(`${this.getUrl(route)}`, formData, options)
       .toPromise()
-      .catch((err) => {
-        console.error(err);
-        if (err.status === 401) {
-          this.router.navigateByUrl('/logout');
-        }
-      });
+      .catch(this.handleError);
+  }
+
+  private handleError(error: any): Promise<any> {
+    if (error.status === 401) {
+      this.router.navigateByUrl('/logout');
+    }
+    console.error(error);
+    return Promise.reject(error.message || error);
   }
 }

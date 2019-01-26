@@ -1,9 +1,4 @@
-<div *ngIf="error" class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>Solicitação não enviada</strong> {{error_message}}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+<app-error [error]="error" [error_message]="error_message" [titulo]="'Solicitação não enviada'"></app-error>
 <div class="margem">
   <h2>Registrar novo usuário</h2>
   <hr>

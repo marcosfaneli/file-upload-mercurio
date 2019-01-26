@@ -47,7 +47,7 @@ export class RequestComponent implements OnInit {
       .catch(err => {
         this.loading = false;
         this.error = true;
-        this.error_message = err.message;
+        this.error_message = err.json().message;
       });
   }
 }

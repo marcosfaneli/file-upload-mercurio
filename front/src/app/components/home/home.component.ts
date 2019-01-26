@@ -22,6 +22,7 @@ export class InicioComponent implements OnInit {
     this.carregarCategorias();
     this.carregarArquivos();
   }
+
   carregarProfile(): any {
     this.auth.ensureAuthenticatedGet('status')
       .then((response) => {

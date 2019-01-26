@@ -1,9 +1,4 @@
-<div *ngIf="error" class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>Credenciais inválidas</strong> Verifique se o usuário/senha informados estão corretos.
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+<app-error [error]="error" [error_message]="'Verifique se o usuário/senha informados estão corretos.'" [titulo]="'Credenciais inválidas'"></app-error>
 <div class="login">
   <div class="text-center">
     <img src="assets/logo_.png">

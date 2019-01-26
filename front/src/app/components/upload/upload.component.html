@@ -1,12 +1,7 @@
-<div *ngIf="error" class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>Arquivo não carregado</strong> {{error_message}}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+<app-error [error]="error" [error_message]="error_message" [titulo]="'Arquivo não carregado'"></app-error>
 <div class="margem">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <h2>Carregar novo arquivo</h2>
+    <h2><i class="far fa-file-alt"></i> Carregar novo arquivo</h2>
     <hr>
     <div class="form-group">
       <label for="descricao">Descrição</label>

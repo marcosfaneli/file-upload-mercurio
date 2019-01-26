@@ -35,7 +35,7 @@ export class DetalheComponent implements OnInit {
     })
     .catch(err => {
       this.error = true;
-      this.error_message = err.message;
+      this.error_message = err.json().message;
       console.error(err);
     });
   }

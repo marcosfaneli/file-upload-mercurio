@@ -7,11 +7,29 @@
       &nbsp;<img routerLink="/" alt="Fox Integrate" src="assets/logo.png" height="36">
     </a>
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item">
-        <a class="nav-link" href="javascript:;" routerLink="upload" (click)="toogleMenu()">Novo</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Arquivos
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="javascript:;" routerLink="upload" (click)="toogleMenu()">Novo</a>
+          <a class="dropdown-item" href="javascript:;" routerLink="search" (click)="toogleMenu()">Pesquisar</a>
+          <!-- 
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="javascript:;" (click)="toogleMenu()">Categoria</a>
+          -->
+        </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="javascript:;" routerLink="search" (click)="toogleMenu()">Pesquisar</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Eventos
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="javascript:;" routerLink="new">Novo</a>
+          <a class="dropdown-item" href="javascript:;" routerLink="list">Pesquisar</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="javascript:;" routerLink="class">Classificação</a>
+        </div>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="javascript:;" routerLink="request" (click)="toogleMenu()">Solicitações</a>

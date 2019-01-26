@@ -1,9 +1,4 @@
-<div *ngIf="error" class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>Solicitação não confirmada</strong> {{error_message}}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+<app-error [error]="error" [error_message]="error_message" [titulo]="'Erro na consulta'"></app-error>
 <div class="margem">
   <form #form="ngForm">
     <h2>Buscar arquivos</h2>

@@ -41,7 +41,7 @@ export class PesquisaComponent implements OnInit {
         .catch(err => {
           this.carregando = false;
           this.error = true;
-          this.error_message = err.message;
+          this.error_message = err.json().message;
         });
     }
   }

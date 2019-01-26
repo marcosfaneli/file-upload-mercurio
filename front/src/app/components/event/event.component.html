@@ -1,3 +1,27 @@
-<p>
-  event works!
-</p>
+<app-error [error]="error" [error_message]="error_message" [titulo]="'Arquivo não carregado'"></app-error>
+<div class="margem">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h2><i class="fab fa-elementor"></i> Criar novo evento</h2>
+    <hr>
+    <div class="form-group">
+      <label for="descricao">Descrição</label>
+      <input type="text" class="form-control" id="descricao" placeholder="Descrição do arquivo" formControlName="descricao" required>
+    </div>
+    <div class="form-group">
+      <label for="categoria">Categoria</label>
+      <select class="form-control" id="categoria" formControlName="categoria" name="categoria" required >
+        <option></option>
+        <option *ngFor="let categoria of categorias" value="{{categoria.id}}">{{categoria.descricao}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="chave">Palavras-chave</label>
+      <input type="text" class="form-control" id="chave" placeholder="palavras-chave separadas por ;" formControlName="chave" name="chave" required>
+    </div>
+    <div class="form-group">
+      <input type="file" id="arquivo" (change)="onFileChange($event)" #fileInput>
+      <button type="button" class="btn btn-sm btn-default" (click)="clearFile()"><i class="fas fa-broom"></i></button>
+    </div>
+    <button type="submit" [disabled]="form.invalid || loading" class="btn btn-raised btn-success">Carregar <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
+  </form>
+</div>

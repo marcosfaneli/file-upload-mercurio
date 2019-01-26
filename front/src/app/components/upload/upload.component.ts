@@ -67,12 +67,10 @@ export class UploadComponent implements OnInit {
           this.router.navigateByUrl(`view/${resposta.json().id}`);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.loading = false;
         this.error = true;
-        console.log(err.message);
-
-        this.error_message = err.message;
+        this.error_message = err.json().message;
       });
   }
 
